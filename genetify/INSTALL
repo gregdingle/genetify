@@ -1,0 +1,33 @@
+Installing genetify on your own server
+======================================
+
+Check out a copy of the code onto your server. Everything you need to run the web app is inside the sub-directory genetify. The rest is supporting files or experimental stuff. Setup follows a typical flow... set up database, webserver, filesystem permissions, base URL.
+
+Server setup
+------------
+
+"Create a database":http://dev.mysql.com/doc/refman/5.1/en/create-database.html for genetify.
+"Execute":http://dev.mysql.com/doc/refman/5.0/en/batch-commands.html schema.sql in the new database.
+"Create a user":http://dev.mysql.com/doc/refman/5.0/en/create-user.html for genetify that has read and write "privileges":http://dev.mysql.com/doc/refman/5.0/en/grant.html over the new database.
+Put database access info into CONFIG.php.
+
+Put the genetify sub-directory (or a symlink pointing to it) in a directory served by your webserver. PHP must be installed and enabled.
+
+"Set filesystem permissions":http://www.perlfect.com/articles/chmod.shtml to read and write in the genetify/cache directory, and the genetify/Browscap/cache directory. 
+
+Test the installation from your browser by opening:
+
+http://yourserver.com/path-to-genetify/recorder.php?test=true
+
+Note: you may need to try it twice to pass the test.
+
+Client setup
+------------
+
+Install "Firebug":http://getfirebug.com/ . Genetify uses Firebug to log messages.
+
+Set the config var REMOTE_BASE_URL in the top of genetify.js to the web root of your installation.
+
+Test the full system by messing around on:
+
+http://yourserver.com/path-to-genetify/demo/test.php

@@ -1,0 +1,39 @@
+<tr>
+    <td>
+        <div class="container">
+
+            <p>Genetify adapts to feedback.</p>
+            
+            <p>Try clicking <a href="#" onmousedown="genetify.record.goal('walkthru_goal', 1); return false;">here</a> then <a href="#" onclick="location.reload(); return false;">reload</a>.</p>
+            <p><a href="#" onclick="genetify.record.reset(); return false;">Reset</a></p>
+            <p><a href="?p=user-goals">Next page</a></p>
+
+            <div class="corner top left">&nbsp;</div>           
+            <div class="corner top right">&nbsp;</div>           
+            <div class="corner bottom right">&nbsp;</div>           
+            <div class="corner bottom left">&nbsp;</div>           
+        </div> 
+    </td>
+    <td>
+        <div class="container">
+
+            <!-- elements test -->
+            <div class="InfluenceMe"></div>
+            <div class="InfluenceMe v alternate"></div>            
+            
+            <div id="results">
+                
+            </div>
+
+            <img style="margin:20px" id="demo_chart" alt="">
+            <script type="text/javascript">
+                genetify.controls.requestGraph('demo_chart', 'InfluenceMe', 'prob');
+            </script>
+
+            <div class="corner top left">&nbsp;</div>           
+            <div class="corner top right">&nbsp;</div>           
+            <div class="corner bottom right">&nbsp;</div>           
+            <div class="corner bottom left">&nbsp;</div>           
+        </div> 
+    </td>
+</tr>

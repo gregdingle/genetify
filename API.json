@@ -1,0 +1,72 @@
+{
+
+    "record.goal": {
+        "endpoint": "recorder.php",
+        "params": {
+            "domain": "", /*document.domain*/
+            "page": "", /*genetify.config.NAMESPACE*/            
+            "goal": "", /*name of goal*/
+            "pageview_xid": 0, /*unique random ID of pageview*/
+            "value": 0 /*relative value of goal*/
+        },
+    },
+
+    "record.pageview": {
+        "endpoint": "recorder.php",
+        "params": {
+            "domain": "", /*document.domain*/
+            "page": "", /*genetify.config.NAMESPACE*/            
+            "pageview_xid": 0, /*unique random ID of pageview*/
+            "genome": "", /*gene variants expressed for this pageview*/
+        },
+        "options": {
+            "referrer": "", /*query encoded string containing variety of referrer info*/
+            "vary_call": "", /*type of stuff genetify was asked to vary*/ 
+            "load_time": 0, /*time it took to parse genetify.js*/
+            "init_time": 0, /*time it took to initialize genetify.js*/
+            "results_time": 0, /*time it took to get the results from the server*/
+            "idle_time": 0, /*time between when the results were received and genetify.vary was called*/
+            "vary_time": 0 /*time it took to vary the page*/
+        }
+    },
+    
+    "_requestResults": {
+        "endpoint": "reader.php",
+        "params": {
+            "domain": "", /*document.domain*/
+            "page": "", /*genetify.config.NAMESPACE*/            
+            "callback": "", /*name of callback function*/
+        },
+        "returns": {} /*returns a dict of dict of variant probabilities*/
+    },
+
+    "record.error": {
+        "endpoint": "recorder.php",
+        "params": {
+            "domain": "", /*document.domain*/
+            "page": "", /*genetify.config.NAMESPACE*/            
+            "error": "", /*error message*/
+        },
+        "options": {
+            "line_number": 0 /*line number of javascript error*/
+        }
+    },
+
+    "record.reset": {
+        "endpoint": "delete.php",
+        "params": {
+            "domain": "", /*document.domain*/
+            "page": "", /*genetify.config.NAMESPACE*/
+            "delete": true
+        },
+    },
+
+    "test.viewGraphs": {
+        "endpoint": "graphs.php",
+        "params": {
+            "domain": "", /*document.domain*/
+            "page": "", /*genetify.config.NAMESPACE*/            
+        },
+    },
+
+}

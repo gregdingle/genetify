@@ -1,0 +1,71 @@
+<tr>
+    <td>
+        <div class="container">
+
+            <p>Try creating your own goals below.</p>
+            <p>Higher scores cause greater change.</p>
+            
+            <p><a href="#" onclick="location.reload(); return false;">Reload</a></p>
+            <p><a href="#" onclick="genetify.record.reset(); return false;">Reset</a></p>
+            <p><a href="?p=combinations">Next page</a></p>
+
+            <div class="corner top left">&nbsp;</div>           
+            <div class="corner top right">&nbsp;</div>           
+            <div class="corner bottom right">&nbsp;</div>           
+            <div class="corner bottom left">&nbsp;</div>           
+        </div> 
+    </td>
+    <td>
+        <div class="container">
+
+            <!-- elements test -->
+            <div class="InfluenceMe"></div>
+            <div class="InfluenceMe v alternate"></div>            
+            
+            <div id="results">
+                
+            </div>
+            <img style="margin:20px" id="demo_chart" alt="">
+            <script type="text/javascript">
+                genetify.controls.requestGraph('demo_chart', 'InfluenceMe', 'prob');
+            </script>
+
+            <div class="corner top left">&nbsp;</div>           
+            <div class="corner top right">&nbsp;</div>           
+            <div class="corner bottom right">&nbsp;</div>           
+            <div class="corner bottom left">&nbsp;</div>           
+        </div> 
+    </td>
+</tr>
+<tr>
+    <td>
+        <div class="container">
+
+            <!-- user generated goal -->
+            <textarea id="sandbox_input_goals" class="sandbox_input" onkeyup="insertHTML('sandbox_input_goals', 'sandbox_output_goals');">
+&lt;a href=&quot;#&quot; onmousedown=
+&quot;genetify.record.goal(&#x27;walkthru_goal&#x27;, 10);&quot;
+&gt;score!&lt;/a&gt; 
+            </textarea>
+
+            <div class="corner top left">&nbsp;</div>           
+            <div class="corner top right">&nbsp;</div>           
+            <div class="corner bottom right">&nbsp;</div>           
+            <div class="corner bottom left">&nbsp;</div>           
+        </div>
+    </td>
+    <td>
+        <div class="container">
+
+            <div id="sandbox_output_goals"></div>
+            <script type="text/javascript">
+                insertHTML('sandbox_input_goals', 'sandbox_output_goals');
+            </script>
+
+            <div class="corner top left">&nbsp;</div>           
+            <div class="corner top right">&nbsp;</div>           
+            <div class="corner bottom right">&nbsp;</div>           
+            <div class="corner bottom left">&nbsp;</div>           
+        </div>
+    </td>
+</tr>

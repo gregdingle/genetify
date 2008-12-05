@@ -1,0 +1,18 @@
+test without firebug
+
+Rewrite demo not to use graph.py
+
+Set up live reference implementation
+
+Write tutorial with screenshots
+
+get graphs.php working
+  Update pygooglechart
+
+Factor out algorithm
+
+Spec reporting API?
+Spec visitor info API?
+
+Decide on packer
+Write note about PostGres
