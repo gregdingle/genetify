@@ -1,3 +1,5 @@
+strip trailing whitespace
+  http://enrique.plexapp.com/?p=33
 test without firebug
 
 Rewrite demo not to use graph.py
