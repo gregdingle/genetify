@@ -1,15 +1,15 @@
-body * { 
-    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif; 
-    font-weight: normal; 
+body * {
+    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    font-weight: normal;
 }
 
-table td { 
+#demo_table td {
     width: 340px;
     height: 200px;
-    vertical-align: top; 
+    vertical-align: top;
 }
 
-table td p, table td pre, table td textarea { 
+#demo_table td p, #demo_table td pre, #demo_table td textarea {
     line-height: 150%;
     margin: 0px;
     margin-bottom: 1em;
@@ -19,9 +19,13 @@ table td p, table td pre, table td textarea {
     width: 100%;
     height: 100%;
     min-height: 180px; /*for IE*/
+
+    font-family: Courier;
+    font-size:0.8em;
+    padding: 2px;
 }
-            
-.container {      
+
+.container {
     position: relative;
     width: inherit;
     height: inherit;
@@ -37,7 +41,7 @@ table td p, table td pre, table td textarea {
     margin-left: -1em;
 }
 
-.corner { 
+.corner {
     position: absolute;
     width: .5em;
     height: .5em;
@@ -47,7 +51,7 @@ table td p, table td pre, table td textarea {
     border-left: 1px dotted black;
 }
 .corner.right {
-    /* TODO: best to hide these corners? */          
+    /* TODO: best to hide these corners? */
 /*            display: none;*/
     right: 0px;
     border-right: 1px dotted black;
@@ -59,4 +63,8 @@ table td p, table td pre, table td textarea {
 .corner.bottom {
     bottom: 0px;
     border-bottom: 1px dotted black;
+}
+
+.rsb {
+    font-size: 1.5em;
 }

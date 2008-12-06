@@ -12,7 +12,7 @@ var genetify_controls_HTML = '\
     <div class="buttons">\
         Goals\
         <a href="#" class="positive" onclick="genetify.controls.goal(); return false;"><img src="' + genetify.config.REMOTE_BASE_URL + '/images/accept.png" alt="">Record goal</a>\
-        <a href="#" class="negative" onclick="genetify.record.reset(); return false;"><img src="' + genetify.config.REMOTE_BASE_URL + '/images/delete.png" alt="">Reset results</a>\
+        <a href="#" class="negative" onclick="genetify.controls.reset(); return false;"><img src="' + genetify.config.REMOTE_BASE_URL + '/images/delete.png" alt="">Reset results</a>\
         <a href="#" class="positive" onclick="genetify.controls.showResults(); return false;"><img src="' + genetify.config.REMOTE_BASE_URL + '/images/lightning.png" alt="">Show results</a>\
     </div>\
     <div class="buttons">\

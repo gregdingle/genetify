@@ -3,37 +3,36 @@
         <div class="container">
 
             <p>Genetify adapts to feedback.</p>
-            
-            <p>Try clicking <a href="#" onmousedown="genetify.record.goal('walkthru_goal', 1); return false;">here</a> then <a href="#" onclick="location.reload(); return false;">reload</a>.</p>
-            <p><a href="#" onclick="genetify.record.reset(); return false;">Reset</a></p>
+
+            <p>Try <a href="#" onclick="genetify.controls.reVary('elements'); return false;">varying</a> and <a href="#" onclick="genetify.controls.goal(1); return false;">clicking</a>.</p>
+            <p><a href="#" onclick="genetify.controls.reset(); return false;">Reset</a></p>
             <p><a href="?p=user-goals">Next page</a></p>
 
-            <div class="corner top left">&nbsp;</div>           
-            <div class="corner top right">&nbsp;</div>           
-            <div class="corner bottom right">&nbsp;</div>           
-            <div class="corner bottom left">&nbsp;</div>           
-        </div> 
+            <div class="corner top left">&nbsp;</div>
+            <div class="corner top right">&nbsp;</div>
+            <div class="corner bottom right">&nbsp;</div>
+            <div class="corner bottom left">&nbsp;</div>
+        </div>
     </td>
     <td>
         <div class="container">
 
             <!-- elements test -->
-            <div class="InfluenceMe"></div>
-            <div class="InfluenceMe v alternate"></div>            
-            
-            <div id="results">
-                
-            </div>
+            <div class="rsb">rock</div>
+            <div class="rsb v paper">paper</div>
+            <div class="rsb v scissors">scissors</div>
 
-            <img style="margin:20px" id="demo_chart" alt="">
+            <br/>
+
+            <div id="genetify_results"></div>
             <script type="text/javascript">
-                genetify.controls.requestGraph('demo_chart', 'InfluenceMe', 'prob');
+                genetify.controls.showResults();
             </script>
 
-            <div class="corner top left">&nbsp;</div>           
-            <div class="corner top right">&nbsp;</div>           
-            <div class="corner bottom right">&nbsp;</div>           
-            <div class="corner bottom left">&nbsp;</div>           
-        </div> 
+            <div class="corner top left">&nbsp;</div>
+            <div class="corner top right">&nbsp;</div>
+            <div class="corner bottom right">&nbsp;</div>
+            <div class="corner bottom left">&nbsp;</div>
+        </div>
     </td>
 </tr>

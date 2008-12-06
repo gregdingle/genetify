@@ -6,15 +6,28 @@
             <p>Try changing one of the background colors.</p>
             <p><a href="?p=javascript">Next page</a></p>
 
-            <div class="corner top left">&nbsp;</div>           
-            <div class="corner top right">&nbsp;</div>           
-            <div class="corner bottom right">&nbsp;</div>           
-            <div class="corner bottom left">&nbsp;</div>           
-        </div> 
+            <div class="corner top left">&nbsp;</div>
+            <div class="corner top right">&nbsp;</div>
+            <div class="corner bottom right">&nbsp;</div>
+            <div class="corner bottom left">&nbsp;</div>
+        </div>
     </td>
     <td>
         <div class="container">
-            
+
+            <!-- user generated test -->
+            <textarea id="sandbox_input_css" class="sandbox_input" onblur="insertHTML('sandbox_input_css', 'sandbox_output_css');">
+&lt;style type=&quot;text/css&quot;&gt;
+#mnbv { background-color: red;}
+#mnbv.vBlue { background-color: blue;}
+#mnbv.vGreen { background-color: green;}
+&lt;/style&gt;
+            </textarea>
+
+            <div class="corner top left">&nbsp;</div>
+            <div class="corner top right">&nbsp;</div>
+            <div class="corner bottom right">&nbsp;</div>
+            <div class="corner bottom left">&nbsp;</div>
         </div>
     </td>
 </tr>
@@ -22,37 +35,26 @@
     <td>
         <div class="container">
 
-            <!-- user generated test -->
-            <textarea id="sandbox_input_css" class="sandbox_input" onblur="insertHTML('sandbox_input_css', 'sandbox_output_css');">
-&lt;style type=&quot;text/css&quot;&gt;
-    #mnbv { background-color: red;}            
-    #mnbv.vA { background-color: blue;}
-&lt;/style&gt;
-            </textarea>
-
-            <div class="corner top left">&nbsp;</div>           
-            <div class="corner top right">&nbsp;</div>           
-            <div class="corner bottom right">&nbsp;</div>           
-            <div class="corner bottom left">&nbsp;</div>           
         </div>
     </td>
     <td>
-        <div class="container">  
-            
+        <div class="container">
+
             <div id="mnbv"></div>
 
-            <div id="sandbox_output_css">   
+            <div id="sandbox_output_css">
                 <!-- style must be here for IE and Safari -->
                 <style type="text/css">
-                    #mnbv { background-color: red;}            
-                    #mnbv.vA { background-color: blue;}
+                    #mnbv { background-color: red;}
+                    #mnbv.vBlue { background-color: blue;}
+                    #mnbv.vGreen { background-color: green;}
                 </style>
             </div>
 
-            <div class="corner top left">&nbsp;</div>           
-            <div class="corner top right">&nbsp;</div>           
-            <div class="corner bottom right">&nbsp;</div>           
-            <div class="corner bottom left">&nbsp;</div>           
+            <div class="corner top left">&nbsp;</div>
+            <div class="corner top right">&nbsp;</div>
+            <div class="corner bottom right">&nbsp;</div>
+            <div class="corner bottom left">&nbsp;</div>
         </div>
     </td>
 </tr>

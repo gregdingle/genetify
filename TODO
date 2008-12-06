@@ -1,10 +1,8 @@
-strip trailing whitespace
-  http://enrique.plexapp.com/?p=33
 test without firebug
+  upgrade firebug light
 
 Rewrite demo not to use graph.py
-
-Set up live reference implementation
+  fix demo in general
 
 Write tutorial with screenshots
 
@@ -17,4 +15,16 @@ Spec reporting API?
 Spec visitor info API?
 
 Decide on packer
+
+set gzip encoding
+
+put variable input goal value in control panel
+
 Write note about PostGres
+
+additiveCSS and CSS ?
+default no javascript?
+explicit __original__ ?
+onmousedown / onclick problem
+
+

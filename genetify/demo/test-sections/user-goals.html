@@ -4,37 +4,36 @@
 
             <p>Try creating your own goals below.</p>
             <p>Higher scores cause greater change.</p>
-            
-            <p><a href="#" onclick="location.reload(); return false;">Reload</a></p>
-            <p><a href="#" onclick="genetify.record.reset(); return false;">Reset</a></p>
+
+            <p><a href="#" onclick="genetify.controls.reset(); return false;">Reset</a></p>
             <p><a href="?p=combinations">Next page</a></p>
 
-            <div class="corner top left">&nbsp;</div>           
-            <div class="corner top right">&nbsp;</div>           
-            <div class="corner bottom right">&nbsp;</div>           
-            <div class="corner bottom left">&nbsp;</div>           
-        </div> 
+            <div class="corner top left">&nbsp;</div>
+            <div class="corner top right">&nbsp;</div>
+            <div class="corner bottom right">&nbsp;</div>
+            <div class="corner bottom left">&nbsp;</div>
+        </div>
     </td>
     <td>
         <div class="container">
 
             <!-- elements test -->
-            <div class="InfluenceMe"></div>
-            <div class="InfluenceMe v alternate"></div>            
-            
-            <div id="results">
-                
-            </div>
-            <img style="margin:20px" id="demo_chart" alt="">
+            <div class="rsb">rock</div>
+            <div class="rsb v paper">paper</div>
+            <div class="rsb v scissors">scissors</div>
+
+            <br/>
+
+            <div id="genetify_results"></div>
             <script type="text/javascript">
-                genetify.controls.requestGraph('demo_chart', 'InfluenceMe', 'prob');
+                genetify.controls.showResults();
             </script>
 
-            <div class="corner top left">&nbsp;</div>           
-            <div class="corner top right">&nbsp;</div>           
-            <div class="corner bottom right">&nbsp;</div>           
-            <div class="corner bottom left">&nbsp;</div>           
-        </div> 
+            <div class="corner top left">&nbsp;</div>
+            <div class="corner top right">&nbsp;</div>
+            <div class="corner bottom right">&nbsp;</div>
+            <div class="corner bottom left">&nbsp;</div>
+        </div>
     </td>
 </tr>
 <tr>
@@ -43,29 +42,40 @@
 
             <!-- user generated goal -->
             <textarea id="sandbox_input_goals" class="sandbox_input" onkeyup="insertHTML('sandbox_input_goals', 'sandbox_output_goals');">
-&lt;a href=&quot;#&quot; onmousedown=
-&quot;genetify.record.goal(&#x27;walkthru_goal&#x27;, 10);&quot;
-&gt;score!&lt;/a&gt; 
+&lt;a href=&quot;#&quot; onclick=
+&quot;genetify.record.goal(&#x27;win&#x27;, 10);&quot;
+&gt;win!&lt;/a&gt;
+
+or
+
+&lt;a href=&quot;#&quot; onclick=
+&quot;genetify.record.goal(&#x27;double win&#x27;, 20);&quot;
+&gt;double win!&lt;/a&gt;
             </textarea>
 
-            <div class="corner top left">&nbsp;</div>           
-            <div class="corner top right">&nbsp;</div>           
-            <div class="corner bottom right">&nbsp;</div>           
-            <div class="corner bottom left">&nbsp;</div>           
+            <div class="corner top left">&nbsp;</div>
+            <div class="corner top right">&nbsp;</div>
+            <div class="corner bottom right">&nbsp;</div>
+            <div class="corner bottom left">&nbsp;</div>
         </div>
     </td>
     <td>
         <div class="container">
 
             <div id="sandbox_output_goals"></div>
+
             <script type="text/javascript">
                 insertHTML('sandbox_input_goals', 'sandbox_output_goals');
             </script>
 
-            <div class="corner top left">&nbsp;</div>           
-            <div class="corner top right">&nbsp;</div>           
-            <div class="corner bottom right">&nbsp;</div>           
-            <div class="corner bottom left">&nbsp;</div>           
+            <br/>
+
+            ...and <a href="#" onclick="genetify.controls._refreshResults(); return false;">refresh</a> results or <a href="#" onclick="genetify.controls.reVary('elements'); return false;">vary</a> again
+
+            <div class="corner top left">&nbsp;</div>
+            <div class="corner top right">&nbsp;</div>
+            <div class="corner bottom right">&nbsp;</div>
+            <div class="corner bottom left">&nbsp;</div>
         </div>
     </td>
 </tr>
