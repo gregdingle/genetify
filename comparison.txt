@@ -1,0 +1,28 @@
+Compare head-to-head with GWO
+
+zero setup
+  just start coding
+
+client-side storage
+  large to small fragments
+
+continous, automatic optimization
+  classic statistical test vs online optimization
+
+varying of CSS in CSS files
+  equivalent in GWO?
+
+
+modify at any time
+  GWO steps
+
+seperate sections as a single variable
+  example
+
+real-time reporting
+  1 day GWO?
+
+on page control panel
+  steps to test
+
+integration with google web optimizer

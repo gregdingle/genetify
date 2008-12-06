@@ -1,0 +1,1 @@
+genetify.handleResults({"rsb":{"__original__":{"count":2,"sum":0,"avg":0,"stddev":0,"share":0,"weight":0.3125},"paper":{"count":4,"sum":0,"avg":0,"stddev":0,"share":0,"weight":0.3125},"scissors":{"count":3,"sum":1,"avg":0.333333333,"stddev":0.471404520909,"share":1,"weight":0.375}}})
