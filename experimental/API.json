@@ -4,7 +4,7 @@
         "endpoint": "recorder.php",
         "params": {
             "domain": "", /*document.domain*/
-            "page": "", /*genetify.config.NAMESPACE*/            
+            "page": "", /*genetify.config.NAMESPACE*/
             "goal": "", /*name of goal*/
             "pageview_xid": 0, /*unique random ID of pageview*/
             "value": 0 /*relative value of goal*/
@@ -15,13 +15,13 @@
         "endpoint": "recorder.php",
         "params": {
             "domain": "", /*document.domain*/
-            "page": "", /*genetify.config.NAMESPACE*/            
+            "page": "", /*genetify.config.NAMESPACE*/
             "pageview_xid": 0, /*unique random ID of pageview*/
             "genome": "", /*gene variants expressed for this pageview*/
         },
         "options": {
             "referrer": "", /*query encoded string containing variety of referrer info*/
-            "vary_call": "", /*type of stuff genetify was asked to vary*/ 
+            "vary_call": "", /*type of stuff genetify was asked to vary*/
             "load_time": 0, /*time it took to parse genetify.js*/
             "init_time": 0, /*time it took to initialize genetify.js*/
             "results_time": 0, /*time it took to get the results from the server*/
@@ -29,12 +29,12 @@
             "vary_time": 0 /*time it took to vary the page*/
         }
     },
-    
-    "_requestResults": {
+
+    "requestResults": {
         "endpoint": "reader.php",
         "params": {
             "domain": "", /*document.domain*/
-            "page": "", /*genetify.config.NAMESPACE*/            
+            "page": "", /*genetify.config.NAMESPACE*/
             "callback": "", /*name of callback function*/
         },
         "returns": {} /*returns a dict of dict of variant probabilities*/
@@ -44,7 +44,7 @@
         "endpoint": "recorder.php",
         "params": {
             "domain": "", /*document.domain*/
-            "page": "", /*genetify.config.NAMESPACE*/            
+            "page": "", /*genetify.config.NAMESPACE*/
             "error": "", /*error message*/
         },
         "options": {
@@ -58,14 +58,6 @@
             "domain": "", /*document.domain*/
             "page": "", /*genetify.config.NAMESPACE*/
             "delete": true
-        },
-    },
-
-    "test.viewGraphs": {
-        "endpoint": "graphs.php",
-        "params": {
-            "domain": "", /*document.domain*/
-            "page": "", /*genetify.config.NAMESPACE*/            
         },
     },
 
