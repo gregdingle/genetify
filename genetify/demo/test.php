@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 
-<html debug="true" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 	<title>Genetify &mdash; Test page</title>
 	<script type="text/javascript">
@@ -18,11 +18,6 @@
             REMOTE_BASE_URL: '..'
             // REMOTE_BASE_URL: window.location.pathname.split('/').slice(0, window.location.pathname.split('/').length-2).join('/')
         };
-
-        //TODO: get working in other browsers
-        if (navigator.userAgent.indexOf("Firefox") == -1){
-            alert('This demo was designed for use with Firefox.');
-        }
 
 	</script>
 

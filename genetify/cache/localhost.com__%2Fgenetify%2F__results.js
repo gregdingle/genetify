@@ -1,1 +1,0 @@
-genetify.handleResults({".mygene":{"A":{"count":2,"sum":0,"avg":0,"stddev":0,"share":0,"weight":0.454545454545},"B":{"count":1,"sum":84,"avg":84,"stddev":0,"share":1,"weight":0.545454545455}},".myothergene":{"A":{"count":1,"sum":0,"avg":0,"stddev":0,"share":0,"weight":0.454545454545},"B":{"count":2,"sum":97,"avg":48.5,"stddev":48.5,"share":1,"weight":0.545454545455}}})

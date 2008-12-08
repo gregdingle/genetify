@@ -53,9 +53,9 @@
     </table>
 
     <script type="text/javascript" charset="utf-8">
-        if (navigator.userAgent.indexOf("Firefox") == -1){
-            alert('This demo was designed for use with Firefox.');
-        }
+        // if (navigator.userAgent.indexOf("Firefox") == -1){
+        //     alert('This demo was designed for use with Firefox.');
+        // }
 
         genetify.vary('all');
 

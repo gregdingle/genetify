@@ -6,6 +6,15 @@ var genetifyTime = {
 
 genetifyTime.begin.load = new Date().getTime();
 
+if (!window.loadFirebugConsole){
+    console.warn   = function(){};
+    console.error  = function(){};
+    console.info   = function(){};
+    console.trace  = function(){};
+    console.log    = function(){};
+    console.assert = function(){};
+}
+
 var genetify = {
 
     config: {
