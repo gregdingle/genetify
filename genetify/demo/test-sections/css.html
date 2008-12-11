@@ -2,8 +2,20 @@
     <td>
         <div class="container">
 
-            <p>Genetify works with CSS. <a href="#" onclick="genetify.controls.reVary('additiveCSSRules'); return false;">Check it out</a>.</p>
-            <p>Try changing one of the background colors.</p>
+
+            <p>Genetify works with CSS. <a href="#" onclick="genetify._cssSheetCount = 0; genetify.controls.reVary('additiveCSSRules'); return false;">Check it out</a>.</p>
+            <p>Try adding a new style rule.
+
+            <script type="text/javascript">
+                var msg = '';
+                if (navigator.userAgent.indexOf("Firefox") == -1){
+                    msg = '<em>Sorry! Rewriting styles only works in Firefox.</em>';
+                }
+                document.write(msg);
+            </script>
+
+            </p>
+
             <p><a href="?p=javascript">Next page</a></p>
 
             <div class="corner top left">&nbsp;</div>
@@ -16,7 +28,7 @@
         <div class="container">
 
             <!-- user generated test -->
-            <textarea id="sandbox_input_css" class="sandbox_input" onblur="insertHTML('sandbox_input_css', 'sandbox_output_css');">
+            <textarea aid="sandbox_input_css" class="sandbox_input" onblur="insertHTML('sandbox_input_css', 'sandbox_output_css');">
 &lt;style type=&quot;text/css&quot;&gt;
 #mnbv { background-color: red;}
 #mnbv.vBlue { background-color: blue;}

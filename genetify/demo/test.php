@@ -5,10 +5,6 @@
 <head>
 	<title>Genetify &mdash; Test page</title>
 	<script type="text/javascript">
-
-	    //TODO: why is this necessary to keep Firebug working?
-	    console.log('Firebug is working.');
-
         GENETIFY_CONFIG = {
             // REQUEST_RESULTS: false,
             USE_RESULTS_CACHE: true,

@@ -16,13 +16,14 @@ body * {
 }
 
 .sandbox_input {
-    width: 100%;
-    height: 100%;
-    min-height: 180px; /*for IE*/
-
     font-family: Courier;
     font-size:0.8em;
     padding: 2px;
+}
+textarea.sandbox_input {
+    width: 100%;
+    height: 100%;
+    min-height: 180px; /*for IE*/
 }
 
 .container {
@@ -65,6 +66,6 @@ body * {
     border-bottom: 1px dotted black;
 }
 
-.rsb {
+.rps {
     font-size: 1.5em;
 }

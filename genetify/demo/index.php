@@ -6,13 +6,11 @@
     <title>Genetify &mdash; A play-full walkthru</title>
 
     <script type="text/javascript">
-        //TODO: why is this needed?
-        // console.log('Firebug is working');
-
         GENETIFY_CONFIG = {
             USE_COOKIE: false,
             USE_RESULTS_CACHE: false,
             REMOTE_BASE_URL: '..',
+            //TODO: seperate by user of demo?
             NAMESPACE: window.location.pathname + window.location.search
         };
     </script>
@@ -53,9 +51,6 @@
     </table>
 
     <script type="text/javascript" charset="utf-8">
-        // if (navigator.userAgent.indexOf("Firefox") == -1){
-        //     alert('This demo was designed for use with Firefox.');
-        // }
 
         genetify.vary('all');
 
