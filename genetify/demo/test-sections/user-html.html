@@ -2,15 +2,21 @@
     <td>
         <div class="container">
 
-            <p>Genetify works by scanning a webpage for all specially named groups of elements. Then it varies elements in a group.</p>
-            <p>Try rewriting the HTML in the textarea then <a href="#" onclick="genetify.controls.reVary('elements'); return false;">vary</a> the page.</p>
+            <p>Try creating your own elements for Genetify. Paste</p>
+            <pre class="sandbox_input" style="min-height:auto;">
+&lt;h2 class=&quot;something v somethingmore&quot;&gt;
+    something more
+&lt;/h2&gt;</pre>
+
+            <p>into the textarea then <a href="#" onclick="genetify.controls.reVary('elements'); return false;">vary</a> the page.</p>
+
             <p><a href="?p=css">Next page</a></p>
 
-            <div class="corner top left">&nbsp;</div>           
-            <div class="corner top right">&nbsp;</div>           
-            <div class="corner bottom right">&nbsp;</div>           
-            <div class="corner bottom left">&nbsp;</div>           
-        </div> 
+            <div class="corner top left">&nbsp;</div>
+            <div class="corner top right">&nbsp;</div>
+            <div class="corner bottom right">&nbsp;</div>
+            <div class="corner bottom left">&nbsp;</div>
+        </div>
     </td>
     <td>
         <div class="container">
@@ -19,17 +25,18 @@
             <textarea id="sandbox_input_elements" class="sandbox_input" onkeyup="insertHTML('sandbox_input_elements', 'sandbox_output_elements');">
 &lt;div class=&quot;something&quot;&gt;
     say something
-&lt;/div&gt;      
+&lt;/div&gt;
 
 &lt;div class=&quot;something v somethingelse&quot;&gt;
     something else
-&lt;/div&gt;                    
-            </textarea>
+&lt;/div&gt;
 
-            <div class="corner top left">&nbsp;</div>           
-            <div class="corner top right">&nbsp;</div>           
-            <div class="corner bottom right">&nbsp;</div>           
-            <div class="corner bottom left">&nbsp;</div>           
+</textarea>
+
+            <div class="corner top left">&nbsp;</div>
+            <div class="corner top right">&nbsp;</div>
+            <div class="corner bottom right">&nbsp;</div>
+            <div class="corner bottom left">&nbsp;</div>
         </div>
     </td>
 </tr>
@@ -47,10 +54,10 @@
                 insertHTML('sandbox_input_elements', 'sandbox_output_elements');
             </script>
 
-            <div class="corner top left">&nbsp;</div>           
-            <div class="corner top right">&nbsp;</div>           
-            <div class="corner bottom right">&nbsp;</div>           
-            <div class="corner bottom left">&nbsp;</div>           
+            <div class="corner top left">&nbsp;</div>
+            <div class="corner top right">&nbsp;</div>
+            <div class="corner bottom right">&nbsp;</div>
+            <div class="corner bottom left">&nbsp;</div>
         </div>
     </td>
 </tr>
