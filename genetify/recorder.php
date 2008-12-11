@@ -40,8 +40,9 @@ result: 3 rows inserted';
     foreach ($tests as $key => $value) {
         if (trim($value['observed']) != trim($value['expected'])) {
             $test_result = 'FAILED';
+            header('Content-type: text/plain');
             print_r($value);
-            die();
+            break;
         }
     }
     return $test_result;
