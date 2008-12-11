@@ -6,13 +6,15 @@ var genetifyTime = {
 
 genetifyTime.begin.load = new Date().getTime();
 
-if (!window.loadFirebugConsole){
-    console.warn   = function(){};
-    console.error  = function(){};
-    console.info   = function(){};
-    console.trace  = function(){};
-    console.log    = function(){};
-    console.assert = function(){};
+if (!window.console.firebug){
+    console = {
+        warn   : function(){},
+        error  : function(){},
+        info   : function(){},
+        trace  : function(){},
+        log    : function(){},
+        assert : function(){}
+    };
 }
 
 var genetify = {
@@ -298,6 +300,7 @@ var genetify = {
 
         genetify.pageview_xid = genetify._generateID();
         // TODO: if not USE_COOKIE?
+
         genetify.cookie.save(genetify.genome, genetify.config.NAMESPACE);
 
         genetifyTime.end.vary = new Date().getTime();
@@ -1515,6 +1518,9 @@ genetify.controls = {
 
 };
 
+//TODO: why is this needed?
+// firebug won't print later unless it is invoked here!
+console.log('Firebug', console.firebug, 'is working');
 
 // to enable external configuration
 if (typeof(GENETIFY_CONFIG) != 'undefined'){

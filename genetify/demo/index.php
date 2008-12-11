@@ -7,7 +7,7 @@
 
     <script type="text/javascript">
         //TODO: why is this needed?
-        console.log('Firebug is working');
+        // console.log('Firebug is working');
 
         GENETIFY_CONFIG = {
             USE_COOKIE: false,
