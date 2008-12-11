@@ -6,7 +6,7 @@ var genetifyTime = {
 
 genetifyTime.begin.load = new Date().getTime();
 
-if (!window.console.firebug){
+if (!window.console || !window.console.firebug){
     console = {
         warn   : function(){},
         error  : function(){},
