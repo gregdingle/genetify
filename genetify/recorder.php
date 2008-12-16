@@ -333,8 +333,6 @@ function insert_new_visitor($ip_address)
     //TODO: make optional
     require_once('Browscap/Browscap.php');
     $bc = new Browscap('cache');
-    //TODO: make this configurable
-    $bc->doAutoUpdate = 0;
     foreach ($bc->getBrowser() as $key => $value) {
         //  filter out raw fields 
         if (!strstr($key, 'browser_name')) {
