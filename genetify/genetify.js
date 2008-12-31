@@ -46,30 +46,26 @@ var genetify = {
 
     init: function(){
 
-        //TODO: optimize safari load, safari init, IE init, IE vary
-
-        //TODO:
-        // if (el.addEventListener){
-        //   el.addEventListener('click', modifyText, false);
-        // } else if (el.attachEvent){
-        //   el.attachEvent('onclick', modifyText);
-        // }
-
-        window.onerror = genetify.record.error;
+        if (window.onerror){
+            //TODO: this is not passing in error message as string!
+            genetify._addListener(window, 'onerror', genetify.record.error);
+        }
+        else {
+            window.onerror = genetify.record.error;
+        }
 
         //TODO: is onmousedown really the best solution?
-        // special error for A tag and onclick
-        window.onclick = function(e){
+        var warnOnClick = function(e){
             var _event = e || window.event;
             var target = _event.target || _event.srcElement;
             var onclickBody = target.getAttribute('onclick');
             if (target.href && onclickBody && onclickBody.indexOf('genetify.record.goal') != -1){
                 var message = 'Don\'t record clicking a link with the "onclick" event. Use "onmousedown" instead.';
-                console.assert(false, message);
-                // because error is suppressed when event
-                genetify.record.error(message);
+                genetify.utils.assert(false, message);
             }
         };
+        genetify._addListener(window, 'onclick', warnOnClick);
+
 
         if (window.location.protocol.indexOf('file:') != -1){
             genetify.config.REMOTE_BASE_URL = genetify.config.REMOTE_BASE_URL.replace('file:', 'http:');
@@ -114,6 +110,15 @@ var genetify = {
             genetify.controls.showResults();
         }
 
+    },
+
+    _addListener: function(elem, sig, listener){
+        if (elem.addEventListener){
+            return elem.addEventListener(sig.substr(2), listener, false);
+        }
+        else if (elem.attachEvent){
+            return elem.attachEvent(sig, listener);
+        }
     },
 
     _registerSystemObjects: function(){

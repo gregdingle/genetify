@@ -173,5 +173,8 @@
         genetify.controls.showResults();
 	</script>
 
+    <!-- <a href="#" onclick="genetify.record.goal('adfs',-1); return false;">test error</a>
+    <a href="#" onclick="genetify.record.goal('adfs',-1); return false;">test error</a> -->
+
 </body>
 </html>

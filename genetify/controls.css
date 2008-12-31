@@ -19,8 +19,8 @@
     margin: 4px;
 
     font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
-    font-size:100%;
-    line-height:200%;
+    font-size:14px !important;
+    line-height:28px !important;
 }
 
 /* BUTTONS */
@@ -35,7 +35,6 @@
     border-left:1px solid #eee;
 
     font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
-    font-size:100%;
     line-height:130%;
     text-decoration:none;
     font-weight:bold;
