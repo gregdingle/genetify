@@ -8,6 +8,7 @@
         GENETIFY_CONFIG = {
             // REQUEST_RESULTS: false,
             USE_RESULTS_CACHE: true,
+            USE_COOKIE: false,
             LOAD_CONTROLS: true,
             NAMESPACE: '/genetify/',
             //TODO: change on server
@@ -170,11 +171,13 @@
 
         // self.results('mygene', ['A', 'B', 'C']);
 
-        genetify.controls.showResults();
+        // genetify.controls.showResults();
 	</script>
 
     <!-- <a href="#" onclick="genetify.record.goal('adfs',-1); return false;">test error</a>
     <a href="#" onclick="genetify.record.goal('adfs',-1); return false;">test error</a> -->
+
+    <!-- <a href="#" onmousedown="if (genetify.pageview_xid) genetify.record.goal('test', 1)">test click</a> -->
 
 </body>
 </html>
