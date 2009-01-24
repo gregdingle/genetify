@@ -205,17 +205,18 @@ var genetify = {
         var variantNamePattern = '([A-Z0-9_$][a-zA-Z0-9_$]*)';
         for (var p in markerPatternDict){
             var pattern = geneNamePattern + markerPatternDict[p] + variantNamePattern;
-            if (p == 'elements'){
-                genetify.re[p] = new RegExp(pattern, 'i');
+            if (p == 'javascript'){
+                genetify.re[p] = new RegExp(pattern);
             }
             else {
-                genetify.re[p] = new RegExp(pattern);
+                //TODO: why do all browsers set strings to lowercase?
+                genetify.re[p] = new RegExp(pattern, 'i');
             }
         }
 
         //TODO: better way to pass info than as genetify.re prop?
-        var classPattern = '\s?v' + variantNamePattern;
-        genetify.re.additiveCSSRulesReplacer = new RegExp(classPattern);
+        var classPattern = ' v' + variantNamePattern; //whitespace important
+        genetify.re.additiveCSSRulesReplacer = new RegExp(classPattern, 'i');
         genetify.re.elementsMarker = new RegExp(markerPatternDict.elements);
 
         // TODO: is compiling any faster? does it do anything?
