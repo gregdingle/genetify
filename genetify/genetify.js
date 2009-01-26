@@ -252,9 +252,8 @@ var genetify = {
             src = genetify.utils.buildURL('/reader.php', queryDict);
         }
 
-        //TODO: is document.write really much better?
         if (pageLoaded){
-            genetify.utils.insertScript(src);
+            genetify.utils.request(src);
         }
         else {
             document.write('<script type="text/javascript" src="' + src + '"></script>');
@@ -825,7 +824,7 @@ genetify.record = {
             'value': value
             //TODO: send category info to server
         };
-        genetify.utils.insertScript(genetify.utils.buildURL('/recorder.php', queryDict));
+        genetify.utils.request(genetify.utils.buildURL('/recorder.php', queryDict));
 
         if (genetify.config.USE_URCHIN){
             genetify.record.urchin(name, value, category);
@@ -861,7 +860,7 @@ genetify.record = {
             'vary_time': genetifyTime.time.vary
         };
 
-        genetify.utils.insertScript(genetify.utils.buildURL('/recorder.php', queryDict));
+        genetify.utils.request(genetify.utils.buildURL('/recorder.php', queryDict));
     },
 
     //TODO: test this function
@@ -912,24 +911,6 @@ genetify.record = {
         urchinTracker(genetify.config.NAMESPACE + GAString);
     },
 
-    //TODO: is this needed anymore?
-    _request: function(URL){
-
-        var im = new Image(1,1);
-        im.src = URL;
-
-        //seems to be necessary for reliable recording
-        im.onload = function(o){
-            console.log('Request returned', genetify.utils.parseURL(URL));
-        };
-
-        if (URL.indexOf('error=') == -1){ //don't recurse!
-            im.onerror = function(){
-                genetify.record.error(URL);
-            };
-        }
-    },
-
     error: function(message, url /*optional*/, lineNumber /*optional*/){
 
         if (message == 'Error loading script'){
@@ -940,8 +921,7 @@ genetify.record = {
             'error': message,
             'line_number': lineNumber || 0
         };
-        // don't insertscript in case that is faulty
-        genetify.record._request(genetify.utils.buildURL('/recorder.php', queryDict));
+        genetify.utils.request(genetify.utils.buildURL('/recorder.php', queryDict));
     }
 
 };
@@ -1089,11 +1069,14 @@ genetify.utils = {
         return URLObj;
     },
 
-    insertScript: function(src){
-        var script = document.createElement('script');
-        script.type = "text/javascript";
-        script.src = src;
-        document.getElementsByTagName('head')[0].appendChild(script);
+    request: function(src){
+        //force Firefox async
+        setTimeout(function(){
+            var script = document.createElement('script');
+            script.type = "text/javascript";
+            script.src = src;
+            document.getElementsByTagName('head')[0].appendChild(script);
+        }, 0);
     },
 
     fragmentToGenome: function(fragment){
@@ -1321,7 +1304,7 @@ genetify.controls = {
     load: function(){
         //TODO: fix controls in IE
         genetify.controls._insertStylesheet(genetify.config.REMOTE_BASE_URL + '/controls.css');
-        genetify.utils.insertScript(genetify.config.REMOTE_BASE_URL + '/controls.js');
+        genetify.utils.request(genetify.config.REMOTE_BASE_URL + '/controls.js');
     },
 
     remove: function(){
@@ -1386,7 +1369,7 @@ genetify.controls = {
             //TODO: change name to reset?
             'delete': true
         };
-        genetify.utils.insertScript(genetify.utils.buildURL('/delete.php', queryDict));
+        genetify.utils.request(genetify.utils.buildURL('/delete.php', queryDict));
         genetify.controls._refreshResults();
     },
 
