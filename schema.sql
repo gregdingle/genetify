@@ -59,7 +59,7 @@ CREATE TABLE gene (
 --
 CREATE TABLE genome (
   genome_id int NOT NULL AUTO_INCREMENT,
-  page_id int NOT NULL, 
+  page_id int NOT NULL,
   hash varchar(255) NOT NULL,
   PRIMARY KEY  (genome_id),
   UNIQUE (page_id,hash)
@@ -122,7 +122,7 @@ vary_time int,
   timestamp timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (pageview_id),
   UNIQUE (pageview_xid)
-);                       
+);
 CREATE INDEX page_id_pageview ON pageview (page_id);
 CREATE INDEX visitor_id_pageview ON pageview (visitor_id);
 CREATE INDEX referrer_id_pageview ON pageview (referrer_id);
@@ -154,7 +154,7 @@ CREATE TABLE variant (
   name varchar(255),
   PRIMARY KEY  (variant_id),
   UNIQUE (gene_id,name)
-);                                   
+);
 
 
 --
@@ -175,6 +175,34 @@ CREATE TABLE result (
   UNIQUE (variant_id)
 );
 
+--
+-- Table structure for table stats_by_variant
+--
+CREATE TABLE stats_by_variant (
+    variant_id int NOT NULL,
+    count int,
+    nonzero int,
+    sum int,
+    avg double precision,
+    sumsq bigint,
+    wavg double precision,
+    UNIQUE (variant_id)
+);
+
+
+--
+-- Table structure for table stats_by_genome
+--
+CREATE TABLE stats_by_genome (
+    genome_id int NOT NULL,
+    count int,
+    nonzero int,
+    sum int,
+    avg double precision,
+    sumsq bigint,
+    wavg double precision,
+    UNIQUE (genome_id)
+);
 
 --
 -- Table structure for table visitor
@@ -245,3 +273,6 @@ ALTER TABLE pageview ADD CONSTRAINT pageview_ibfk_4 FOREIGN KEY (genome_id) REFE
 ALTER TABLE goal ADD CONSTRAINT goal_ibfk_1 FOREIGN KEY (pageview_xid) REFERENCES pageview (pageview_xid) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE result ADD CONSTRAINT result_ibfk_1 FOREIGN KEY (variant_id) REFERENCES variant (variant_id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE stats_by_variant ADD CONSTRAINT stats_by_variant_ibfk_1 FOREIGN KEY (variant_id) REFERENCES variant (variant_id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE stats_by_genome ADD CONSTRAINT stats_by_genome_ibfk_1 FOREIGN KEY (genome_id) REFERENCES genome (genome_id) ON DELETE CASCADE ON UPDATE CASCADE;
