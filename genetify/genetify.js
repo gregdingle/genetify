@@ -66,6 +66,8 @@ var genetify = {
         };
         genetify._addListener(window, 'onclick', warnOnClick);
 
+        // covers case sensitivity bug in Safari
+        genetify.utils.assert(window.document.doctype, 'Document does not have a DOCTYPE');
 
         if (window.location.protocol.indexOf('file:') != -1){
             genetify.config.REMOTE_BASE_URL = genetify.config.REMOTE_BASE_URL.replace('file:', 'http:');

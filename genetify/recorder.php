@@ -298,7 +298,7 @@ function update_stats($key, $id, $count, $value)
             sum = sum + $value,
             avg = sum / (count + $count),
             sumsq = sumsq + sum * sum,
-            wavg = wavg";
+            wavg = 0.9 * wavg + 0.1 * $value";
     $stmt = $mysqli->prepare($sql);
     _execute_and_return_id('stats_by_' . $key, $stmt);
 }

@@ -40,9 +40,9 @@
 
 		/* Additive rules test */
         .myothergene { background-color: white;}
-		.myothergene.vA { background-color: blue;}
-		.myothergene.vB { background-color: red;}
-		.myothergene.vC { background-color: green;}
+		.myothergene.va { background-color: blue;}
+		.myothergene.vb { background-color: red;}
+		.myothergene.vc { background-color: green;}
 
 	</style>
 
