@@ -767,6 +767,7 @@ genetify.scanJS = {
         );
         var rawJavascript = '';
         for (var i=0; i < document.scripts.length; i++){
+            //TODO: could this perform poorly?
             rawJavascript += document.scripts[i].innerHTML;
         }
         return rawJavascript;

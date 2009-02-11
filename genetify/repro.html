@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+     "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+    <!-- genetify setup -->
+    <style type="text/css" media="all">
+         .v { display: none; }
+         .genetify_disabled { display: none !important; }
+         .genetify_enabled { display: block !important; }
+    </style>
+    <script type="text/javascript">
+         GENETIFY_CONFIG = { USE_COOKIE: false, LOAD_CONTROLS: true };
+    </script>
+    <script type="text/javascript" src="genetify.js"></script>
+
+    <!-- genetified CSS -->
+    <style type="text/css" media="all">
+         #box { border: 10px solid red;  }
+         #box_vBlue { border: 10px solid blue; }
+         #box_vBlack { border: 10px solid black; }
+    </style>
+
+</head>
+<body>
+
+    <!-- genetified HTML -->
+    <div id="box">
+         <h1 class="noise">bash!</h1>
+         <h1 class="noise v bang">bang!</h1>
+         <h1 class="noise v boom">boom!</h1>
+         <h2><a href="#" onmousedown="genetify.record.goal('quick start', 1)">lightning strikes</a></h2>
+    </div>
+
+    <!-- apply genetify -->
+    <script type="text/javascript">genetify.vary();</script>
+
+</body>
+</html>
