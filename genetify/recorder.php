@@ -17,7 +17,10 @@ function test()
     $tests = array();
 
     $tests['pageview']['observed'] = file_get_contents($base_url . '/recorder.php?return=text&domain=test.com&page=/test.html&genome=main=Elements,mygene=C,myothergene=__original__&pageview_xid=0&load_time=7&init_time=7&results_time=14&idle_time=86&vary_time=17&vary_call=elements');
-    //TODO: this will fail first visit because visitor info hasn't been recorded ever
+
+    //prevent false alarm on first run after install
+    $tests['pageview']['observed'] = str_replace('visitor: 1 rows inserted', '', $tests['pageview']['observed']);
+
     $tests['pageview']['expected'] = '
 page: 1 rows inserted
 genome: 1 rows inserted
