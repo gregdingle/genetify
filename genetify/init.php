@@ -1,4 +1,6 @@
 <?php
+$start_time = microtime(1);
+
 require_once('CONFIG.php');
 
 $mysqli = new mysqli($DB['host'], $DB['user'], $DB['password'], $DB['database']);

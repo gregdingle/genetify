@@ -23,8 +23,10 @@
 
     <style type="text/css" media="screen">
         /* override controls.css */
-        #genetify_results_table {
+        #genetify_results {
             position: static;
+        }
+        #genetify_results_table {
             width: 200px;
         }
         #genetify_results_table .genetify_gene_row {

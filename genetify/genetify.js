@@ -27,8 +27,10 @@ var genetify = {
         USE_COOKIE: true,
         NO_VARYING: false,
         LOAD_CONTROLS: false,
+        SHOW_RESULTS: false,
         NAMESPACE: window.location.pathname
         //TODO: NO_SCANNING
+        //TODO: DEBUG
     },
 
     genome: {},
@@ -66,18 +68,35 @@ var genetify = {
         };
         genetify._addListener(window, 'onclick', warnOnClick);
 
+        //TODO: this causes an error in IE
         // covers case sensitivity bug in Safari
-        genetify.utils.assert(window.document.doctype, 'Document does not have a DOCTYPE');
+        // genetify.utils.assert(window.document.doctype, 'Document does not have a DOCTYPE');
 
         if (window.location.protocol.indexOf('file:') != -1){
             genetify.config.REMOTE_BASE_URL = genetify.config.REMOTE_BASE_URL.replace('file:', 'http:');
         }
 
         if (genetify.config.LOAD_CONTROLS){
-            window.onload = function(){
+            genetify._addListener(window, 'onload', function(){
                 genetify.controls.load();
-            };
+            });
         }
+
+        if (genetify.config.SHOW_RESULTS){
+            genetify._addListener(window, 'onload', function(){
+                genetify.controls.showResults();
+            });
+        }
+
+        genetify._addListener(window, 'onkeydown', function(e){
+            if (e.ctrlKey){
+                var key = e.charCode || e.keyCode;
+                if (key == 71 ){ // g
+                    genetify.controls.load();
+                    genetify.controls.showResults();
+                }
+            }
+        });
 
         genetify._checkQueryString(); //because of links from GA
 
@@ -92,7 +111,9 @@ var genetify = {
             }
 
             // TODO: make this optional as speed optimization
-            genetify._checkCSS(['.v', '.genetify_enabled', '.genetify_disabled']);
+            genetify._addListener(window, 'onload', function(){
+                genetify._checkCSS(['.v', '.genetify_enabled', '.genetify_disabled']);
+            });
             //TODO: parse only CSS after init()
             //TODO: return objects instead of setting
             genetify._registerSystemObjects();
@@ -204,7 +225,7 @@ var genetify = {
             'javascript': '_v',
             'elements': '\\s+v\\s+'
         };
-        var variantNamePattern = '([A-Z0-9_$][a-zA-Z0-9_$]*)';
+        var variantNamePattern = '([A-Z0-9_$][a-zA-Z0-9_$\-]*)';
         for (var p in markerPatternDict){
             var pattern = geneNamePattern + markerPatternDict[p] + variantNamePattern;
             if (p == 'elements'){
@@ -1483,6 +1504,7 @@ genetify.controls = {
             for (var j=0; j < cols.length; j++){
 
                 var extra = ' class="genetify_col_' + rows[0][j] + '"';
+                extra += ' title="The ' + rows[0][j] + ' of variant ' + cols[0] + ' is ' + cols[j] + '"';
 
                 if (cols.length === 1){
                     extra = ' colspan="' + rows[i+1].length + '"';

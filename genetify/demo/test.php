@@ -10,6 +10,7 @@
             USE_RESULTS_CACHE: true,
             USE_COOKIE: false,
             LOAD_CONTROLS: true,
+            SHOW_RESULTS: true,
             NAMESPACE: '/genetify/',
             //TODO: change on server
             REMOTE_BASE_URL: '..'
@@ -152,6 +153,7 @@
 	</table>
 
 	<script type="text/javascript" charset="utf-8">
+
         // genetify.vary('elements');
         // genetify.test.printProbs();
 
@@ -163,7 +165,7 @@
 		// console.log(genetify.cookie.read('genetify_genome_page'));
 		// console.log(genetify.cookie.read('genetify_genome'));
 
-        self = genetify.test;
+        // self = genetify.test;
         // self.variants('mygene', ['A', 'B', 'C']);
         // self.variants('.mygene', ['A', 'B']);
         // self.variants('.myothergene', ['A', 'B', 'C']);
@@ -171,7 +173,6 @@
 
         // self.results('mygene', ['A', 'B', 'C']);
 
-        // genetify.controls.showResults();
 	</script>
 
     <!-- <a href="#" onclick="genetify.record.goal('adfs',-1); return false;">test error</a>

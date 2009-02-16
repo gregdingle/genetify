@@ -32,7 +32,7 @@ function get_results($domain, $page){
 
     $sql = "SELECT * FROM result
         WHERE domain_name = '$domain' AND page_name = '$page'
-        ORDER BY gene_name, variant_name = '__original__' DESC, variant_name";
+        ORDER BY gene_name, variant_weight DESC, variant_name = '__original__' DESC, variant_name";
 
     $result = $mysqli->query($sql);
     $rows = array();

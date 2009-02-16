@@ -19,23 +19,23 @@ function test()
     $tests['pageview']['observed'] = file_get_contents($base_url . '/recorder.php?return=text&domain=test.com&page=/test.html&genome=main=Elements,mygene=C,myothergene=__original__&pageview_xid=0&load_time=7&init_time=7&results_time=14&idle_time=86&vary_time=17&vary_call=elements');
 
     //prevent false alarm on first run after install
-    $tests['pageview']['observed'] = str_replace('visitor: 1 rows inserted', '', $tests['pageview']['observed']);
+    $tests['pageview']['observed'] = str_replace('visitor: 1 inserted', '', $tests['pageview']['observed']);
 
     $tests['pageview']['expected'] = '
-page: 1 rows inserted
-genome: 1 rows inserted
-stats_by_genome: 1 rows inserted
-pageview: 1 rows inserted
-gene: 3 rows inserted
-variant: 3 rows inserted
-genome_variant_link: 3 rows inserted
-stats_by_variant: 3 rows inserted';
+page: 1 inserted
+genome: 1 inserted
+stats_by_genome: 1 inserted
+pageview: 1 inserted
+gene: 3 inserted
+variant: 3 inserted
+genome_variant_link: 3 inserted
+stats_by_variant: 3 inserted';
 
     $tests['goal']['observed'] = file_get_contents($base_url . '/recorder.php?goal=test&value=100&pageview_xid=0&return=text');
-    $tests['goal']['expected'] = 'goal: 1 rows inserted
-stats_by_genome: 2 rows inserted
-stats_by_variant: 6 rows inserted
-result: 3 rows inserted';
+    $tests['goal']['expected'] = 'goal: 1 inserted
+stats_by_genome: 2 inserted
+stats_by_variant: 6 inserted
+result: 3 inserted';
 
     $tests['results']['observed'] = file_get_contents($base_url . '/reader.php?callback=genetify.handleResults&domain=test.com&page=/test.html');
     $tests['results']['expected'] = 'genetify.handleResults({"main":{"Elements":{"count":1,"sum":100,"avg":100,"stddev":0,"share":1,"weight":1}},"mygene":{"C":{"count":1,"sum":100,"avg":100,"stddev":0,"share":1,"weight":1}},"myothergene":{"__original__":{"count":1,"sum":100,"avg":100,"stddev":0,"share":1,"weight":1}}})';
@@ -136,13 +136,15 @@ function record_error($message, $line_number, $domain, $page)
 
 function render_status($table)
 {
+    global $start_time;
+
     if (@$_REQUEST['return'] == 'text' || @$_REQUEST['callback']) {
         foreach ($GLOBALS['affected_tables'] as $t => $value) {
-            $lines[] = "$t: $value rows inserted";
+            $lines[] = "$t: $value inserted";
         }
         //TODO: suppress only for auto test
         if (!@$_REQUEST['return'] == 'text') {
-            $lines[] = round(1000 * (microtime(1) - $_SERVER['REQUEST_TIME'])) . 'ms';
+            $lines[] = round(1000 * (microtime(1) - $start_time)) . 'ms';
         }
         callback(@$_REQUEST['callback'] ? implode(', ', $lines) : implode("\n", $lines));
     }

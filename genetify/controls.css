@@ -108,13 +108,20 @@
 
 /* results table */
 
+#genetify_results {
+    position:absolute; top:0%; right:0%;
+}
+
 #genetify_results_table {
     /*same as control panel*/
     opacity: 0.95;
     font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
     font-size:0.9em;
+/*    position: fixed;*/
 
-    position: absolute;
+    /* TODO:  */
+/*    height: 50%;*/
+/*    overflow: scroll;*/
     left: 5%;
     bottom: 20%;
     
@@ -125,6 +132,7 @@
 
 }
 #genetify_results_table th {
+    text-align: center;
     font-weight: bold;
 }
 #genetify_results_table td {
@@ -139,4 +147,13 @@
 #genetify_results_table .genetify_gene_row {
     text-align: center;
     font-style: italic;
+}
+
+#genetify_results_table td.genetify_col_weight {
+    background-color: rgb(240,240,240);
+}
+
+#genetify_results_table .genetify_col_stddev,
+#genetify_results_table .genetify_col_share {
+    display: none;
 }
