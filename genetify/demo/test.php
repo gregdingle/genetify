@@ -4,6 +4,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 	<title>Genetify &mdash; Test page</title>
+
+	<?php if (stristr($_SERVER['HTTP_USER_AGENT'], 'MSIE')): ?>
+    <script type='text/javascript' src='http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'></script>
+	<?php endif ?>
+
 	<script type="text/javascript">
         GENETIFY_CONFIG = {
             // REQUEST_RESULTS: false,
@@ -27,11 +32,11 @@
     <?php include('test-sections/_head.html'); ?>
 
     <!-- large JS library for benchmarking -->
-    <!-- <script src="http://snipshot.com/media/base/MochiKit.js" type="text/javascript"></script>
+    <script src="http://snipshot.com/media/base/MochiKit.js" type="text/javascript"></script>
     <script type="text/javascript">
        //TODO: why is Safari and IE finding different number of objects?
        MochiKit; //for IE
-    </script> -->
+    </script>
 
 	<style type="text/css" media="screen">
 		/* CSS rules test */
@@ -154,7 +159,8 @@
 
 	<script type="text/javascript" charset="utf-8">
 
-        // genetify.vary('elements');
+        // genetify.vary('CSSRules', 'elements', 'additiveCSSRules');
+        genetify.vary();
         // genetify.test.printProbs();
 
         // genetify.controls.requestGraph('stripchart', 'mygene', 'strip');
@@ -165,13 +171,13 @@
 		// console.log(genetify.cookie.read('genetify_genome_page'));
 		// console.log(genetify.cookie.read('genetify_genome'));
 
-        // self = genetify.test;
-        // self.variants('mygene', ['A', 'B', 'C']);
-        // self.variants('.mygene', ['A', 'B']);
-        // self.variants('.myothergene', ['A', 'B', 'C']);
-        // self.variants('main', ['AdditiveCSSRules', 'Elements']);
+        test = genetify.test;
+        // test.variants('mygene', ['A', 'B', 'C']);
+        // test.variants('.mygene', ['A', 'B']);
+        // test.variants('.myothergene', ['A', 'B', 'C']);
+        // test.variants('main', ['AdditiveCSSRules', 'Elements']);
 
-        // self.results('mygene', ['A', 'B', 'C']);
+        // test.results('mygene', ['A', 'B', 'C']);
 
 	</script>
 

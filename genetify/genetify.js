@@ -6,7 +6,8 @@ var genetifyTime = {
 
 genetifyTime.begin.load = new Date().getTime();
 
-if (!window.console || !window.console.firebug){
+//TODO: is this too intrusive?
+if (!console || !(console.firebug || console.provider)){
     console = {
         warn   : function(){},
         error  : function(){},
@@ -111,6 +112,7 @@ var genetify = {
             }
 
             // TODO: make this optional as speed optimization
+            genetify._checkCSS(['.v', '.genetify_enabled', '.genetify_disabled']);
             genetify._addListener(window, 'onload', function(){
                 genetify._checkCSS(['.v', '.genetify_enabled', '.genetify_disabled']);
             });
@@ -220,7 +222,7 @@ var genetify = {
 
         var geneNamePattern = '(.*)';
         var markerPatternDict = {
-            'additiveCSSRules': '[a-zA-Z0-9_$]\\.v',
+            'additiveCSSRules': '[a-zA-Z0-9_$]?\\.v',
             'CSSRules': '_v',
             'javascript': '_v',
             'elements': '\\s+v\\s+'
@@ -298,8 +300,13 @@ var genetify = {
         //TODO: order of functions?
         var validTypes = ['elements', 'CSSRules', 'additiveCSSRules', 'javascript'];
         var myArgs = []; //because Safari doesn't allow assignment
-        if (!arguments.length || arguments[0] == 'all'){
+        if (arguments[0] == 'all'){
             myArgs = validTypes;
+        }
+        else if (!arguments.length){
+            myArgs = validTypes;
+            //TODO: ??
+            // myArgs = ['elements', 'CSSRules', 'additiveCSSRules'];
         }
         else {
             myArgs = genetify.vary.arguments;
@@ -566,11 +573,15 @@ var genetify = {
 
     //TODO: handle "access to restricted URI"
     _walkObject: function(rootObj, func){
+        //TODO: make global config
+        var max_depth = 3;
+
         // IMPORTANT: rootObj should be prefiltered for bad objects
         var self = genetify; //use local name for speed
         self._scanCounter += 1; // to allow repeated calls to genetify.vary
         //TODO: limit scan depth as config option
 
+        rootObj.__depth = 0;
         var objStack = [rootObj];
         while (objStack.length){
 
@@ -580,18 +591,18 @@ var genetify = {
             for (var p in currentObj){
                 //check for nested objects
                 //TODO: can functions have nested objects?
-                if (typeof(currentObj[p]) == 'object'){
+                if (typeof(currentObj[p]) == 'object' && !genetify[p]){
 
                     // run away from weird false objects
                     //TODO: find less crude workaround
                     if (!currentObj[p]) break;
 
                     // check if visited on current walk of namespace
-                    if (!currentObj[p].visited || currentObj[p].visited != self._scanCounter){
+                    if (!currentObj[p].__visited || currentObj[p].__visited != self._scanCounter){
 
                         try {
                             // mark to avoid circular references
-                            currentObj[p].visited = self._scanCounter;
+                            currentObj[p].__visited = self._scanCounter;
                         }
                         catch(err){
                             // read-only objects are no good
@@ -604,7 +615,11 @@ var genetify = {
                             continue;
                         }
 
-                        objStack.push(currentObj[p]);
+                        currentObj[p].__depth = currentObj.__depth + 1;
+                        if (currentObj[p].__depth <= max_depth){
+                            objStack.push(currentObj[p]);
+                        }
+
                     }
                 }
             }
@@ -1533,7 +1548,7 @@ genetify.controls = {
 
 //TODO: why is this needed?
 // firebug won't print later unless it is invoked here!
-console.log('Firebug', console.firebug, 'is working');
+console.log('Firebug', console.firebug || console.provider, 'is working');
 
 // to enable external configuration
 if (typeof(GENETIFY_CONFIG) != 'undefined'){

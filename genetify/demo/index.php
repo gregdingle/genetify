@@ -5,6 +5,10 @@
 <head>
     <title>Genetify &mdash; A play-full walkthru</title>
 
+	<?php if (stristr($_SERVER['HTTP_USER_AGENT'], 'MSIE')): ?>
+    <script type='text/javascript' src='http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'></script>
+	<?php endif ?>
+
     <script type="text/javascript">
         GENETIFY_CONFIG = {
             USE_COOKIE: false,
