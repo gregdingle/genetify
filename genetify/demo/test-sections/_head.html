@@ -8,14 +8,16 @@
     .genetify_enabled { display: block; }
 </style>
 
-<!--TODO: use firebug lite for IE http://getfirebug.com/lite.html -->
 <script type="text/javascript" charset="utf-8" src="../genetify.js"></script>
+
+<?php if (stristr($_SERVER['HTTP_USER_AGENT'], 'MSIE')): ?>
+<!-- <script type='text/javascript' src='http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'></script> -->
+<?php endif ?>
 
 <script type="text/javascript">
     //TODO: test urchintransact
     // _uacct = "UA-93687-2";
     // urchinTracker();
-
     insertHTML = function(inputID, outputID){
         var input = document.getElementById(inputID);
         var output = document.getElementById(outputID);

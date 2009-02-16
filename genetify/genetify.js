@@ -7,7 +7,7 @@ var genetifyTime = {
 genetifyTime.begin.load = new Date().getTime();
 
 //TODO: is this too intrusive?
-if (!console || !(console.firebug || console.provider)){
+if (!window.console || !(window.console.firebug || window.console.provider)){
     console = {
         warn   : function(){},
         error  : function(){},
