@@ -8,6 +8,7 @@ genetifyTime.begin.load = new Date().getTime();
 
 //TODO: is this too intrusive?
 if (!window.console || !(window.console.firebug || window.console.provider)){
+
     console = {
         warn   : function(){},
         error  : function(){},
@@ -1522,8 +1523,14 @@ genetify.controls = {
                 extra += ' title="The ' + rows[0][j] + ' of variant ' + cols[0] + ' is ' + cols[j] + '"';
 
                 if (cols.length === 1){
+                    var lastGene = cols[j];
                     extra = ' colspan="' + rows[i+1].length + '"';
                     extra += ' class="genetify_gene_row"';
+                }
+                else if (j === 0){
+                    extra += ' onclick="location=\'#' + encodeURIComponent(lastGene) + '=' + cols[j] + '\'; location.reload()"';
+                    //TODO:
+                    // cols[j] = '<a href="#' + encodeURIComponent(lastGene) + '=' + cols[j] + '">' + cols[j] + '</a>';
                 }
 
                 var colTag = '';
