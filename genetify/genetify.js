@@ -487,7 +487,7 @@ var genetify = {
             var variantName = variants[i][0];
             if (geneResults[variantName] && geneResults[variantName]['weight']){
                 probs[i] = geneResults[variantName]['weight'];
-                geneResults[variantName]['found'] = true;
+                geneResults[variantName]['recorded'] = true;
             }
             else {
                 probs[i] = NaN;
@@ -522,7 +522,7 @@ var genetify = {
     _allocateUnused: function(geneResults, probs){
         var missingProbs = [];
         for (var p in geneResults){
-            if (geneResults[p]['weight'] && !geneResults[p]['found']){
+            if (geneResults[p]['weight'] && !geneResults[p]['recorded']){
                 missingProbs.push(geneResults[p]['weight']);
             }
         }
@@ -1471,7 +1471,7 @@ genetify.controls = {
     //TODO: better handling of unused and missing results
     resultsToTable: function(){
         //TODO: make column headers dynamic
-        var headers = ['name', 'count', 'sum', 'avg', 'stddev', 'share', 'weight'];
+        var headers = ['name', 'count', 'sum', 'avg', 'stddev', 'share', 'weight', 'recorded'];
         var rows = [headers];
 
         if (!genetify.config.REQUEST_RESULTS){

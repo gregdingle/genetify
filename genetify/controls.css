@@ -156,6 +156,7 @@
     cursor: pointer;
 }
 
+#genetify_results_table .genetify_col_recorded,
 #genetify_results_table .genetify_col_stddev,
 #genetify_results_table .genetify_col_share {
     display: none;
