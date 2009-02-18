@@ -1014,7 +1014,7 @@ genetify.cookie = {
         //TODO: best expiry? session or time?
         //TODO: trim subdomains? or let user set document.domain?
         if (!hoursToExpiry){
-            var hoursToExpiry = 1;
+            var hoursToExpiry = 24 * 365;
         }
         var exp = new Date();
     	exp.setTime(exp.getTime() + (hoursToExpiry * 60 * 60 * 1000));
