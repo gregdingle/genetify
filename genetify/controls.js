@@ -252,21 +252,21 @@ genetify.controls = {
                     extra += ' class="genetify_gene_row"';
 
                     // stats confidence
-                    // var confidence = genetify.weight.sums[geneName].confidence;
-                    // if (confidence){
-                    //     var stars = '';
-                    //     if (confidence > 0.9){
-                    //         stars += '*';
-                    //     }
-                    //     if (confidence > 0.95){
-                    //         stars += '*';
-                    //     }
-                    //     if (confidence > 0.99){
-                    //         stars += '*';
-                    //     }
-                    //     extra += ' title="The ' + geneName + ' variants are different at a confidence of ' + genetify.utils.round(confidence) + '"';
-                    //     cols[j] = cols[j] + ' ' + stars;
-                    // }
+                    var confidence = genetify.weight.sums[geneName] ? genetify.weight.sums[geneName].confidence: '';
+                    if (confidence){
+                        var stars = '';
+                        if (confidence > 0.9){
+                            stars += '*';
+                        }
+                        if (confidence > 0.95){
+                            stars += '*';
+                        }
+                        if (confidence > 0.99){
+                            stars += '*';
+                        }
+                        extra += ' title="The ' + geneName + ' variants are different at a confidence of ' + genetify.utils.round(confidence) + '"';
+                        cols[j] = cols[j] + ' ' + stars;
+                    }
 
                 }
                 else if (j === 0){

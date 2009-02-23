@@ -1,1 +1,1 @@
-genetify.handleResults({"rps":{"__original__":{"count":1,"sum":20,"avg":20,"stddev":0,"share":0.666666666,"weight":0.527777777667},"scissors":{"count":1,"sum":10,"avg":10,"stddev":0,"share":0.333333333,"weight":0.472222222167}}})
+genetify.handleResults({"rps":{"__original__":{"count":3,"nonzero":1,"sum":20,"avg":6.666666666,"sumsq":400,"wavg":2},"paper":{"count":7,"nonzero":2,"sum":30,"avg":3.75,"sumsq":500,"wavg":2.529},"scissors":{"count":5,"nonzero":0,"sum":0,"avg":0,"sumsq":0,"wavg":0}}})
