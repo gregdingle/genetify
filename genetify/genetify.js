@@ -102,18 +102,29 @@ var genetify = {
             genetify._setReferrer();
         }
 
-        genetify.utils.request(genetify.config.REMOTE_BASE_URL + '/controls.js');
+        var filesLoad = function(override){
+            genetify.utils.request(genetify.config.REMOTE_BASE_URL + '/controls.js');
+            genetify.utils.insertStylesheet(genetify.config.REMOTE_BASE_URL + '/controls.css');
+        }
+
         if (genetify.config.LOAD_CONTROLS || genetify.config.SHOW_RESULTS){
+            filesLoad();
             genetify._addListener(window, 'onload', function(){
-                genetify.utils.insertStylesheet(genetify.config.REMOTE_BASE_URL + '/controls.css');
+                if (genetify.config.LOAD_CONTROLS){
+                    genetify.controls._insertHTML('genetify_controls', genetify_controls_HTML);
+                }
+                if (genetify.config.SHOW_RESULTS){
+                    genetify.controls.showResults();
+                }
             });
         }
 
         genetify._addListener(window, 'onkeydown', function(e){
             if (e.ctrlKey){
+                filesLoad();
                 var key = e.charCode || e.keyCode;
                 if (key == 71 ){ // g
-                    genetify.controls.load();
+                    genetify.controls._insertHTML('genetify_controls', genetify_controls_HTML);
                     genetify.controls.showResults();
                 }
             }
@@ -1327,6 +1338,7 @@ genetify.weight = {
     }
 
 };
+
 
 //TODO: why is this needed?
 // firebug won't print later unless it is invoked here!

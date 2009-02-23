@@ -245,28 +245,28 @@ genetify.controls = {
 
                 var extra = ' class="genetify_col_' + rows[0][j] + '"';
 
-                if (genetify.results[cols[j]]){
+                if (genetify.results[cols[j]] && rows[i+1]){
                     var geneName = cols[j];
 
                     extra = ' colspan="' + rows[i+1].length + '"';
                     extra += ' class="genetify_gene_row"';
 
                     // stats confidence
-                    var confidence = genetify.weight.sums[geneName].confidence;
-                    if (confidence){
-                        var stars = '';
-                        if (confidence > 0.9){
-                            stars += '*';
-                        }
-                        if (confidence > 0.95){
-                            stars += '*';
-                        }
-                        if (confidence > 0.99){
-                            stars += '*';
-                        }
-                        extra += ' title="The ' + geneName + ' variants are different at a confidence of ' + genetify.utils.round(confidence) + '"';
-                        cols[j] = cols[j] + ' ' + stars;
-                    }
+                    // var confidence = genetify.weight.sums[geneName].confidence;
+                    // if (confidence){
+                    //     var stars = '';
+                    //     if (confidence > 0.9){
+                    //         stars += '*';
+                    //     }
+                    //     if (confidence > 0.95){
+                    //         stars += '*';
+                    //     }
+                    //     if (confidence > 0.99){
+                    //         stars += '*';
+                    //     }
+                    //     extra += ' title="The ' + geneName + ' variants are different at a confidence of ' + genetify.utils.round(confidence) + '"';
+                    //     cols[j] = cols[j] + ' ' + stars;
+                    // }
 
                 }
                 else if (j === 0){
@@ -320,10 +320,3 @@ var genetify_controls_HTML = '\
         <a href="#" class="negative" onclick="genetify.cookie.disable(); return false;"><img src="' + genetify.config.REMOTE_BASE_URL + '/images/delete.png" alt="">Disable</a>\
     </div>\
 ';
-if (genetify.config.LOAD_CONTROLS){
-    genetify.controls._insertHTML('genetify_controls', genetify_controls_HTML);
-}
-
-if (genetify.config.SHOW_RESULTS){
-    genetify.controls.showResults();
-}

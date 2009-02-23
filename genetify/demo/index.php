@@ -7,6 +7,7 @@
 
     <script type="text/javascript">
         GENETIFY_CONFIG = {
+            SHOW_RESULTS: true,
             USE_COOKIE: false,
             USE_RESULTS_CACHE: false,
             REMOTE_BASE_URL: '..',
@@ -14,6 +15,7 @@
             NAMESPACE: window.location.pathname + window.location.search
         };
     </script>
+
     <?php
         include('test-sections/_head.html');
         if (empty($_GET['p'])) {
@@ -25,6 +27,7 @@
         /* override controls.css */
         #genetify_results {
             position: static;
+            display: none;
         }
         #genetify_results_table {
             width: 200px;
@@ -54,13 +57,7 @@
 
     <script type="text/javascript" charset="utf-8">
 
-        genetify.vary('all');
-
-        var results = document.getElementById('results');
-        if (results){
-            var out = genetify.printProbs();
-            results.innerHTML = out.replace(/\n/g, '<br/>');
-        }
+        genetify.vary('elements', 'additiveCSSRules');
 
     </script>
 
