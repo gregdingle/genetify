@@ -34,11 +34,10 @@ stats_by_variant: 3 inserted';
     $tests['goal']['observed'] = file_get_contents($base_url . '/recorder.php?goal=test&value=100&pageview_xid=0&return=text');
     $tests['goal']['expected'] = 'goal: 1 inserted
 stats_by_genome: 2 inserted
-stats_by_variant: 6 inserted
-result: 3 inserted';
+stats_by_variant: 6 inserted';
 
     $tests['results']['observed'] = file_get_contents($base_url . '/reader.php?callback=genetify.handleResults&domain=test.com&page=/test.html');
-    $tests['results']['expected'] = 'genetify.handleResults({"main":{"Elements":{"count":1,"sum":100,"avg":100,"stddev":0,"share":1,"weight":1}},"mygene":{"C":{"count":1,"sum":100,"avg":100,"stddev":0,"share":1,"weight":1}},"myothergene":{"__original__":{"count":1,"sum":100,"avg":100,"stddev":0,"share":1,"weight":1}}})';
+    $tests['results']['expected'] = 'genetify.handleResults({"main":{"Elements":{"count":1,"nonzero":1,"sum":100,"avg":100,"sumsq":10000,"wavg":10}},"mygene":{"C":{"count":1,"nonzero":1,"sum":100,"avg":100,"sumsq":10000,"wavg":10}},"myothergene":{"__original__":{"count":1,"nonzero":1,"sum":100,"avg":100,"sumsq":10000,"wavg":10}}})';
 
     $tests['delete']['observed'] = file_get_contents($base_url . '/delete.php?domain=test.com&page=/test.html&delete=true&return=text');
     $tests['delete']['expected'] = '1 deleted';
@@ -200,7 +199,6 @@ function record_goal($pageview_xid, $name, $value, $set_cache=1)
         update_stats('variant', $row['variant_id'], 0, $value);
     }
 
-    update_result($domain, $page);
     //TODO: check against a cache frequency to reduce load
     if ($set_cache) {
         set_cache($domain, $page);
@@ -213,6 +211,7 @@ function set_cache($domain, $page)
 {
     global $base_url;
     $callback = 'genetify.handleResults';
+    //TODO: is this slow?
     $reader_response = file_get_contents("$base_url/reader.php?callback=$callback&domain=$domain&page=$page");
     if (!strstr($reader_response, $callback)) {
         errback('Read failure: ' . $reader_response);
@@ -302,7 +301,7 @@ function update_stats($key, $id, $count, $value)
             nonzero = nonzero + ($value>0),
             sum = sum + $value,
             avg = sum / (count + $count),
-            sumsq = sumsq + sum * sum,
+            sumsq = sumsq + ($value * $value),
             wavg = 0.9 * wavg + 0.1 * $value";
     $stmt = $mysqli->prepare($sql);
     _execute_and_return_id('stats_by_' . $key, $stmt);
@@ -446,116 +445,6 @@ function _camel_to_underscore($array)
     }
     return $array;
 }
-
-function update_result($domain, $page)
-{
-    global $mysqli;
-
-    $agg = "SELECT gene_id, gene.name as gene_name,
-            SUM(count) as 'gene_count',
-            SUM(nonzero) as 'gene_nonzero',
-            SUM(sum) as 'gene_sum',
-            SUM(sum) / SUM(count) as 'gene_avg',
-            COUNT(DISTINCT variant_id) as 'gene_distinct'
-        FROM stats_by_variant JOIN variant USING(variant_id) JOIN gene USING(gene_id) JOIN page USING(page_id) JOIN domain USING(domain_id)
-        WHERE domain.name = '$domain' AND page.name = '$page'
-        GROUP BY gene_id";
-
-    $variant_relative_reward =
-        "SELECT
-            variant_id,
-            '$domain' as domain_name,
-            '$page' as page_name,
-            gene_name,
-
-            variant.name as variant_name,
-            count as 'variant_count',
-            sum as 'variant_sum',
-            avg as 'variant_avg',
-            SQRT(sumsq/count - avg*avg) as 'variant_stddev',
-
-            sum/agg.`gene_sum` as 'variant_share',
-            (sum/agg.`gene_sum` + 5/agg.`gene_nonzero`)
-                / (1 + `gene_distinct`*5/agg.`gene_nonzero`) as 'variant_weight'
-
-        FROM stats_by_variant JOIN variant USING(variant_id) JOIN ($agg) as agg USING(gene_id)";
-
-    $replace_result = "REPLACE INTO result " . $variant_relative_reward;
-    $stmt = $mysqli->prepare($replace_result);
-    $id = _execute_and_return_id('result', $stmt);
-    return $id;
-}
-
-//TODO: needed?
-function rebuild_result($domain, $page)
-{
-    global $mysqli;
-
-    $pageview_reward = "SELECT domain.name as 'domain_name',
-            page.name as 'page_name',
-            genome_id,
-            count(pageview_id) as 'count_goals',
-            sum(IFNULL(goal.value, 0)) as 'reward',
-            avg(IFNULL(goal.value, 0)) as 'average_goal_value',
-            avg(IFNULL(goal.value, 0) > 0) as 'conversion'
-        from pageview
-        left join goal using(pageview_xid)
-        inner join page using(page_id)
-        inner join domain using(domain_id)
-        WHERE
-            domain.name = '$domain'
-            AND page.name = '$page'
-        group by pageview_id";
-
-    $variant_reward = "SELECT domain_name,
-            page_name,
-            gene_id,
-            gene.name as 'gene_name',
-            variant_id,
-            variant.name as 'variant_name',
-            concat_ws(' -> ', gene.name, variant.name) as 'gene_variant',
-            reward
-        from ($pageview_reward) as pageview_reward
-        inner join genome using(genome_id)
-        inner join genome_variant_link using(genome_id)
-        inner join variant using(variant_id)
-        inner join gene using(gene_id)";
-
-    $gene_aggregate_reward = "SELECT gene_id,
-            COUNT(reward) as 'gene_count',
-            COUNT(reward/reward) as 'gene_nonzero',
-            SUM(reward) as 'gene_sum',
-            AVG(reward) as 'gene_avg',
-            COUNT(DISTINCT variant_id) as 'gene_distinct'
-        from ($variant_reward) as variant_reward
-        GROUP BY gene_id";
-
-    $variant_relative_reward = "SELECT
-            variant_id,
-            domain_name,
-            page_name,
-            gene_name,
-            variant_name,
-
-            COUNT(variant_id) as 'variant_count',
-            SUM(reward) as 'variant_sum',
-            AVG(reward) as 'variant_avg',
-            STDDEV(reward) as 'variant_stddev',
-
-            SUM(reward)/agg.`gene_sum` as 'variant_share',
-            (SUM(reward)/agg.`gene_sum` + 5/agg.`gene_nonzero`)
-                / (1 + `gene_distinct`*5/agg.`gene_nonzero`) as 'variant_weight'
-
-        FROM ($gene_aggregate_reward) as agg
-            LEFT JOIN ($variant_reward) as variant_reward USING(gene_id)
-        GROUP BY variant_id";
-
-    $replace_result = "REPLACE INTO result " . $variant_relative_reward;
-    $stmt = $mysqli->prepare($replace_result);
-    $id = _execute_and_return_id('result', $stmt);
-    return $id;
-}
-
 
 main();
 $mysqli->close();

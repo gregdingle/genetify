@@ -1,14 +1,14 @@
 #genetify_controls {
     z-index: 999;
-    position: fixed; 
-    left: 5%; 
-    bottom: 5%;  
+    position: fixed;
+    left: 5%;
+    bottom: 5%;
     max-width: 800px;
 
     background-color: rgb(120,120,120);
     opacity: 0.95;
     border: 1px solid rgb(100,100,100);
-    
+
     color: white;
 }
 
@@ -124,7 +124,7 @@
 /*    overflow: scroll;*/
     left: 5%;
     bottom: 20%;
-    
+
     background-color: rgb(200,200,200);
     border: 1px solid rgb(120,120,120);
 
@@ -140,9 +140,12 @@
 }
 #genetify_results_table td, th {
     padding: 0.66em;
-    height: auto;  
+    height: auto;
     min-width: 50px;
     text-align: right;
+}
+#genetify_results_table td {
+    cursor: help;
 }
 #genetify_results_table .genetify_gene_row {
     text-align: center;
@@ -152,8 +155,12 @@
 #genetify_results_table td.genetify_col_weight {
     background-color: rgb(240,240,240);
 }
-#genetify_results_table .genetify_col_name {
+#genetify_results_table td.genetify_col_name {
+    color: darkblue;
     cursor: pointer;
+}
+#genetify_results_table td.genetify_col_name:hover {
+    text-decoration:underline;
 }
 
 #genetify_results_table .genetify_col_recorded,

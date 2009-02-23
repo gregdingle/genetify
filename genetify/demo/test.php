@@ -9,10 +9,12 @@
     <script type='text/javascript' src='http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'></script>
 	<?php endif ?>
 
+    <script src="../fdist.js" type="text/javascript"></script>
+
 	<script type="text/javascript">
         GENETIFY_CONFIG = {
             // REQUEST_RESULTS: false,
-            USE_RESULTS_CACHE: true,
+            USE_RESULTS_CACHE: false,
             USE_COOKIE: false,
             LOAD_CONTROLS: true,
             SHOW_RESULTS: true,
@@ -160,7 +162,7 @@
 	<script type="text/javascript" charset="utf-8">
 
         // genetify.vary('CSSRules', 'elements', 'additiveCSSRules');
-        genetify.vary();
+        // genetify.vary();
         // genetify.test.printProbs();
 
         // genetify.controls.requestGraph('stripchart', 'mygene', 'strip');
@@ -171,14 +173,16 @@
 		// console.log(genetify.cookie.read('genetify_genome_page'));
 		// console.log(genetify.cookie.read('genetify_genome'));
 
-        test = genetify.test;
-        // test.variants('mygene', ['A', 'B', 'C']);
-        // test.variants('.mygene', ['A', 'B']);
-        // test.variants('.myothergene', ['A', 'B', 'C']);
-        // test.variants('main', ['AdditiveCSSRules', 'Elements']);
-
-        // test.results('mygene', ['A', 'B', 'C']);
-
+        // setTimeout(function(){
+        //     test = genetify.test;
+        //     // test.variants('mygene', ['A', 'B', 'C']);
+        //     // test.variants('.mygene', ['A', 'B']);
+        //     // test.variants('.myothergene', ['A', 'B', 'C']);
+        //     // test.variants('main', ['AdditiveCSSRules', 'Elements']);
+        //
+        //     test.results('mygene', ['A', 'B', 'C']);
+        // }, 1000);
+        //
 	</script>
 
     <!-- <a href="#" onclick="genetify.record.goal('adfs',-1); return false;">test error</a>

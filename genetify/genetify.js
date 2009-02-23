@@ -78,28 +78,6 @@ var genetify = {
             genetify.config.REMOTE_BASE_URL = genetify.config.REMOTE_BASE_URL.replace('file:', 'http:');
         }
 
-        if (genetify.config.LOAD_CONTROLS){
-            genetify._addListener(window, 'onload', function(){
-                genetify.controls.load();
-            });
-        }
-
-        if (genetify.config.SHOW_RESULTS){
-            genetify._addListener(window, 'onload', function(){
-                genetify.controls.showResults();
-            });
-        }
-
-        genetify._addListener(window, 'onkeydown', function(e){
-            if (e.ctrlKey){
-                var key = e.charCode || e.keyCode;
-                if (key == 71 ){ // g
-                    genetify.controls.load();
-                    genetify.controls.showResults();
-                }
-            }
-        });
-
         genetify._checkQueryString(); //because of links from GA
 
         genetify.cookie.init();
@@ -124,11 +102,29 @@ var genetify = {
             genetify._setReferrer();
         }
 
+        genetify.utils.request(genetify.config.REMOTE_BASE_URL + '/controls.js');
+        if (genetify.config.LOAD_CONTROLS || genetify.config.SHOW_RESULTS){
+            genetify._addListener(window, 'onload', function(){
+                genetify.utils.insertStylesheet(genetify.config.REMOTE_BASE_URL + '/controls.css');
+            });
+        }
+
+        genetify._addListener(window, 'onkeydown', function(e){
+            if (e.ctrlKey){
+                var key = e.charCode || e.keyCode;
+                if (key == 71 ){ // g
+                    genetify.controls.load();
+                    genetify.controls.showResults();
+                }
+            }
+        });
+
     },
 
     handleResults: function(JSON){
         //TODO: validate JSON
-        genetify.results = eval(JSON);
+        rawResults = eval(JSON);
+        genetify.results = genetify.weight.check(genetify.weight.results(rawResults));
         genetifyTime.end.results = new Date().getTime();
 
         var elem = document.getElementById('genetify_results_table');
@@ -572,6 +568,7 @@ var genetify = {
         return selectedVariant;
     },
 
+    //TODO: don't set props on objects
     //TODO: handle "access to restricted URI"
     _walkObject: function(rootObj, func){
         //TODO: make global config
@@ -1168,6 +1165,14 @@ genetify.utils = {
         return genetify.config.REMOTE_BASE_URL + relativePath + '?' + pairs.join('&');
     },
 
+    insertStylesheet: function(src){
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = src;
+        link.type = 'text/css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    },
+
     // adapted from Prototype
     _getElementsByXPath: function(expression) {
         var results = [];
@@ -1205,350 +1210,120 @@ genetify.utils = {
 
 };
 
-//TODO: split test off into optional file
+genetify.weight = {
 
-genetify.test = {
+    sums: {},
 
-    _currentGeneName: '',
-    _currentVariantNames: [],
-    delay: 300,
+    variant: function(variant, sums){
+        //TODO: config var
+        // higher is slower
+        var floor = 100;
+        variant['weight'] = (variant['sum'] + floor) / (sums['sum'] + floor * sums['distinct']);
+        //TODO: return weight value?
+        return variant;
+    },
 
-    results: function(geneName, variantNames){
-
-        //TODO: multiple distribution tests of results
-        // if (!probs){
-        //     // default even prob
-        //     for (var i=0; i < variantNames.length; i++){
-        //         probs[i] = 1 / variantNames.length;
-        //     }
-        // }
-        //
-        // genetify.utils.assert(probs.length == variantNames.length)
-
-        if (variantNames.indexOf('__original__') == -1){
-            variantNames.push('__original__');
-        }
-
-        //TODO: safety checks so it won't delete data! ... change namespace?
-        // in case page has already been varied
-        genetify.controls.reset();
-        genetify.genome = {};
-
-        // record random subset of variants
-        var leaveOut = genetify._getRandomVariant(variantNames);
-        // var leaveOut = '';
-
-        for (var i=0; i < variantNames.length; i++){
-
-            // stagger requests for database performance
-            var requestAfterDelay = function(variantName, delay){
-                setTimeout(function(){
-                    genetify.genome[geneName] = variantName;
-                    genetify.pageview_xid = genetify._generateID();
-                    genetify.record.pageview(genetify.genome, genetify.referrer);
-                    genetify.record.goal('__test__', 1);
-                }, delay);
+    //TODO: make this a hook... config var?
+    results: function(results){
+        for (var geneName in results){
+            var sums = {
+                'distinct': 0,
+                'sumdev_within': 0,
+                'sumdev_between': 0
             };
-
-            if (variantNames[i] != leaveOut){
-                requestAfterDelay(variantNames[i], i * genetify.test.delay);
-            }
-        }
-
-        // //TODO: better way to pass info to callback?
-        genetify.test._currentGeneName = geneName;
-        genetify.test._currentVariantNames = variantNames;
-
-        //to give time for database
-        setTimeout(function(){
-            genetify.requestResults('genetify.test.processResults', true);
-        }, (i + 3) * genetify.test.delay);
-    },
-
-    processResults: function(JSON){
-        genetify.handleResults(JSON);
-        genetify.test._checkResults(genetify.test._currentGeneName, genetify.test._currentVariantNames);
-        genetify.controls.reset();
-    },
-
-    _checkResults: function(geneName, variantNames){
-
-        // to conform to function params
-        var variants = [];
-        for (var i=0; i < variantNames.length; i++){
-            variants[i] = [variantNames[i], null];
-        }
-        // this will adjust missing results
-        var probs = genetify._getProbabilities(genetify.results[geneName], variants);
-
-        // genetify.controls.printProbs();
-        for (var k=0; k < variantNames.length; k++){
-            if (genetify.results[geneName]){
-                var expectedProb = 1 / variantNames.length;
-                probs[k] = genetify.utils.round(probs[k]);
-                genetify.utils.assert(
-                    expectedProb == probs[k],
-                    'Expected probability ' + expectedProb + ', got ' + probs[k]
-                );
-                console.log(variantNames[k] + ', p=' + probs[k]);
-            }
-        }
-
-        var sum = genetify.utils.round(genetify.utils.sum(probs));
-        genetify.utils.assert(sum == 1, 'Weights add up to ' + sum + ' for ' + geneName);
-        console.log('PASSED: Probabilities match expected');
-    },
-
-    variants: function(geneName, variantNames, geneType /*optional*/){
-        //TODO: safety checks so it won't delete data! ... change namespace?
-
-        if (variantNames.indexOf('__original__') == -1){
-            variantNames.push('__original__');
-        }
-
-        console.log('Checking expression of variants', variantNames, 'in gene', geneName);
-
-        genetify.genomeOverride = {};
-
-        var checked = [];
-        var iterations_per_variant = 6; //to make sure all are seen
-        for (var i=0; i < variantNames.length * iterations_per_variant; i++){
-            // stagger requests for database performance
-            setTimeout(function (){
-                genetify.controls.reVary(geneType || 'all');
-                for (var k=0; k < variantNames.length; k++){
-                    if (genetify.genome[geneName] == variantNames[k]){
-                        checked[k] = 1;
-                    }
+            for (var variantName in results[geneName]){
+                var variant = results[geneName][variantName];
+                for (var stat in variant){
+                    sums[stat] = typeof(sums[stat]) == 'undefined' ? variant[stat] : sums[stat] + variant[stat];
                 }
-            }, i * genetify.test.delay);
+                sums['sumdev_within'] += variant['sumsq'] - Math.pow(variant['sum'] / variant['count'], 2);
+                sums['distinct'] += 1;
+            }
+            var mean = sums['sum'] / sums['count'];
+            for (var variantName in results[geneName]){
+                var variant = results[geneName][variantName];
+                results[geneName][variantName] = genetify.weight.variant(variant, sums);
+                sums['sumdev_between'] += variant['count'] * Math.pow(variant['avg'] - mean, 2);
+            }
+            // for later use
+            sums['confidence'] = genetify.weight.FTest(sums);
+            genetify.weight.sums[geneName] = sums;
+        }
+        return results;
+    },
+
+    check: function(results){
+        for (var geneName in results){
+            var sum = 0;
+            for (var variantName in results[geneName]){
+                var row = results[geneName][variantName];
+                genetify.utils.assert(typeof(row['weight']) != 'undefined', 'Results must have weights');
+                sum += row['weight'];
+            }
+            genetify.utils.assert(genetify.utils.round(sum) == 1, 'Weights add up to ' + sum + ' for ' + geneName);
+        }
+        return results;
+    },
+
+    //TODO: write test
+    FTest: function(sums){
+        df_within = sums['count'] - sums['distinct'];
+        df_between = sums['distinct'] - 1;
+
+        if (df_between < 2 || df_within < 2){
+            return 0;
         }
 
-        setTimeout(function(){
-            genetify.controls.reset();
-            genetify.utils.assert(
-                genetify.utils.sum(checked) == variantNames.length,
-                'Not all variants were present in genome'
-            );
-            console.log('PASSED: All variants expressed');
-        }, i * genetify.test.delay);
-    }
+        ms_within = sums['sumdev_within'] / df_within;
+        ms_between = sums['sumdev_between'] / df_between;
 
-};
-
-genetify.controls = {
-
-    _timer: false,
-
-    load: function(){
-        //TODO: fix controls in IE
-        genetify.controls._insertStylesheet(genetify.config.REMOTE_BASE_URL + '/controls.css');
-        genetify.utils.request(genetify.config.REMOTE_BASE_URL + '/controls.js');
+        p = genetify.weight.Fspin(ms_between / ms_within, df_between, df_within);
+        return 1 - p;
     },
 
-    remove: function(){
-        var elem = document.getElementById('genetify_controls');
-        if (elem){
-            elem.parentNode.removeChild(elem);
-        }
-    },
+    // adapted from http://faculty.vassar.edu/lowry/fcall.js
+    Fspin: function(f, df1, df2) {
 
-    _insertStylesheet: function(src){
-        var link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = src;
-        link.type = 'text/css';
-        document.getElementsByTagName('head')[0].appendChild(link);
-    },
-
-    _insertHTML: function(id, HTML){
-        var elem = document.getElementById(id);
-        if (!elem){
-            elem = document.createElement('div');
-            elem.id = id;
-            document.getElementsByTagName('body')[0].appendChild(elem);
-        }
-        elem.innerHTML = HTML;
-    },
-
-    _refreshResults: function(){
-        if (genetify.controls._timer){
-            clearTimeout(genetify.controls._timer);
-            genetify.controls._timer = false;
-        }
-
-        genetify.controls._timer = setTimeout(function(){
-                genetify.requestResults('genetify.handleResults', true);
-            },
-            genetify.test.delay
-        );
-    },
-
-    reVary: function(geneType){
-        genetify.genome = {};
-        genetify.vary(geneType);
-        // console.log(genetify.genome, genetifyTime.time.vary + 'ms');
-        //TODO: this does nothing until server updates vary counts
-        // genetify.controls._refreshResults();
-    },
-
-    goal: function(value){
-        //TODO: user input of goal value
-
-        if (!value){
-            value = Math.round(Math.random()*99) + 1;
-        }
-
-        genetify.record.goal('genetify.controls.goal', value);
-        genetify.controls._refreshResults();
-    },
-
-    reset: function(){
-        var queryDict = {
-            //TODO: change name to reset?
-            'delete': true
+        LJspin = function(q, i, j, b) {
+            var zz = 1;
+            var z = zz;
+            var k = i;
+            while (k <= j) {
+                zz = zz * q * k / (k - b);
+                z = z + zz;
+                k = k + 2
+            }
+            return z
         };
-        genetify.utils.request(genetify.utils.buildURL('/delete.php', queryDict));
-        genetify.controls._refreshResults();
-    },
 
-    viewGraphs: function(){
-        var src = genetify.utils.buildURL('/graphs.php', {});
-        window.open(src, 'graphs.php');
-    },
-
-    getGraphURL: function(geneName, chart){
-        var queryDict = {
-            'gene': geneName,
-            'chart': chart
-        };
-        var src = genetify.utils.buildURL('/pygooglechart/graph.py', queryDict);
-        return src;
-    },
-
-    requestGraph: function(graphName, geneName, chart){
-        var graph = document.getElementById(graphName);
-        graph.src = genetify.controls.getGraphURL(geneName, chart);
-    },
-
-    //TODO: do something so genome passed in cookie is also shown
-    printProbs: function(){
-        var lines = [];
-        if (!genetify.config.REQUEST_RESULTS){
-            console.log('Results not requested');
+        var pj2 = Math.PI / 2;
+        var x = df2 / (df1 * f + df2);
+        if ((df1 % 2) == 0) {
+            return LJspin(1 - x, df2, df1 + df2 - 4, df2 - 2) * Math.pow(x, df2 / 2)
         }
-        else if (genetify.utils.empty(genetify.results)){
-            console.warn('No results found');
+        if ((df2 % 2) == 0) {
+            return 1 - LJspin(x, df1, df1 + df2 - 4, df1 - 2) * Math.pow(1 - x, df1 / 2)
         }
-        else {
-            for (var p in genetify.genome){
-                var variantName = genetify.genome[p];
-                var key = p + '->' + variantName;
-                if (genetify.results[p] && genetify.results[p][variantName]){
-                    var prob = Math.round(genetify.results[p][variantName]['weight']*100)/100;
-                    if (prob === 0){
-                        lines.push(key + ', p=undefined');
-                    }
-                    else {
-                        lines.push(key + ', p=' + prob);
-                    }
-                    //TODO: better handling of unused and missing results
-                    if (genetify.utils.empty(genetify.genomeOverride)
-                        && !genetify.utils.empty(genetify._allocateUnused(genetify.results[p], [0]))){
-                        console.warn('Unused results for ' + p);
-                    }
-                }
-                else {
-                    lines.push(key + ', results not found');
-                }
-            }
+        var tan = Math.atan(Math.sqrt(df1 * f / df2));
+        var a = tan / pj2;
+        var sat = Math.sin(tan);
+        var cot = Math.cos(tan);
+        if (df2 > 1) {
+            a = a + sat * cot * LJspin(cot * cot, 2, df2 - 3, -1) / pj2
         }
-        console.log(lines.join('\n'));
-        return lines.join('\n');
-    },
-
-    //TODO: do something so genome passed in cookie is also shown
-    //TODO: better handling of unused and missing results
-    resultsToTable: function(){
-        //TODO: make column headers dynamic
-        var headers = ['name', 'count', 'sum', 'avg', 'stddev', 'share', 'weight', 'recorded'];
-        var rows = [headers];
-
-        if (!genetify.config.REQUEST_RESULTS){
-            //TODO: get results anyway
-            console.log('Results not requested');
+        if (df1 == 1) {
+            return 1 - a
         }
-        else if (genetify.utils.empty(genetify.results)){
-            console.warn('No results found');
+        var c = 4 * LJspin(sat * sat, df2 + 1, df1 + df2 - 4, df2 - 2) * sat * Math.pow(cot, df2) / Math.PI;
+        if (df2 == 1) {
+            return 1 - a + c / 2
         }
-        else {
-            //TODO: use current genes on page??
-            for (var p in genetify.results){
-                rows.push([p]);
-                var gene = genetify.results[p];
-
-                for (var variantName in gene){
-                    var row = [variantName];
-                    for (var col in gene[variantName]){
-
-                        var value = gene[variantName][col];
-                        if (typeof(value) == 'number'){
-                            value = genetify.utils.round(value);
-                        }
-                        row.push(value);
-
-                    }
-                    rows.push(row);
-                }
-
-            }
+        var k = 2;
+        while (k <= (df2 - 1) / 2) {
+            c = c * k / (k - .5);
+            k = k + 1
         }
-        return rows;
-    },
-
-    showResults: function(){
-        var rows = genetify.controls.resultsToTable();
-
-        var HTML = '<table id="genetify_results_table">';
-        for (var i=0; i < rows.length; i++){
-
-            var rowTag = 'tr';
-            HTML += '<' + rowTag + '>';
-
-            cols = rows[i];
-
-            for (var j=0; j < cols.length; j++){
-
-                var extra = ' class="genetify_col_' + rows[0][j] + '"';
-                extra += ' title="The ' + rows[0][j] + ' of variant ' + cols[0] + ' is ' + cols[j] + '"';
-
-                if (cols.length === 1){
-                    var lastGene = cols[j];
-                    extra = ' colspan="' + rows[i+1].length + '"';
-                    extra += ' class="genetify_gene_row"';
-                }
-                else if (j === 0){
-                    extra += ' onclick="location=\'#' + encodeURIComponent(lastGene) + '=' + cols[j] + '\'; location.reload()"';
-                    //TODO:
-                    // cols[j] = '<a href="#' + encodeURIComponent(lastGene) + '=' + cols[j] + '">' + cols[j] + '</a>';
-                }
-
-                var colTag = '';
-                if (i === 0){
-                    colTag = 'th';
-                }
-                else {
-                    colTag = 'td';
-                }
-
-                HTML += '<' + colTag + extra + '>' + cols[j] + '</' + colTag + '>';
-            }
-
-            HTML += '</' + rowTag + '>';
-        }
-        HTML += '</table>';
-
-        genetify.controls._insertHTML('genetify_results', HTML);
+        return 1 - a + c;
     }
 
 };

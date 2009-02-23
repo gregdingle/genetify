@@ -11,15 +11,15 @@ function main()
 
     // $start = microtime();
     // echo microtime() - $start;
-    $rows = get_results($_REQUEST['domain'], $_REQUEST['page']);
+    $results = get_results($_REQUEST['domain'], $_REQUEST['page']);
 
     if (!function_exists('json_encode')) {
         require_once('JSON.php');
         $json = new Services_JSON();
-        $output = $json->encode($rows);
+        $output = $json->encode($results);
     }
     else {
-        $output = json_encode($rows);
+        $output = json_encode($results);
     }
 
     $callback = $_REQUEST['callback'] . "($output)";
@@ -30,23 +30,26 @@ function main()
 function get_results($domain, $page){
     global $mysqli;
 
-    $sql = "SELECT * FROM result
-        WHERE domain_name = '$domain' AND page_name = '$page'
-        ORDER BY gene_name, variant_weight DESC, variant_name = '__original__' DESC, variant_name";
+    $sql = "SELECT gene.name as gene_name, variant.name as variant_name, stats_by_variant.*
+            FROM stats_by_variant
+                JOIN variant USING(variant_id)
+                JOIN gene USING(gene_id)
+                JOIN page USING(page_id)
+                JOIN domain USING(domain_id)
+            WHERE domain.name = '$domain' AND page.name = '$page'
+            ORDER BY gene_name, variant_name = '__original__' DESC, variant_name";
 
-    $result = $mysqli->query($sql);
-    $rows = array();
-    while ($row = $result->fetch_assoc()) {
+    $queryset = $mysqli->query($sql);
+    $results = array();
+    while ($row = $queryset->fetch_assoc()) {
         foreach ($row as $key => $value) {
-            if (is_numeric($value)) {
-                $value = $value * 1;
-            }
-            if (strstr($key, 'variant') && $key != 'variant_name' && $key != 'variant_id') {
-                $rows[$row['gene_name']][$row['variant_name']][str_replace('variant_', '', $key)] = $value;
+            if (is_numeric($value) && !strstr($key, '_id')) {
+                $results[$row['gene_name']][$row['variant_name']][$key] = $value * 1;
             }
         }
     }
-    return $rows;
+
+    return $results;
 }
 
 main();
