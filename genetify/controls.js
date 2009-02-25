@@ -132,6 +132,8 @@ genetify.controls = {
 
     reVary: function(geneType){
         genetify.genome = {};
+        var URLData = window.location.hash.slice(1);
+        genetify.utils.update(genetify.genomeOverride, genetify.utils.fragmentToGenome(URLData));
         genetify.vary(geneType);
         // console.log(genetify.genome, genetifyTime.time.vary + 'ms');
         //TODO: this does nothing until server updates vary counts

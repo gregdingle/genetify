@@ -3,7 +3,8 @@
 -- for MySQL
 SET storage_engine=INNODB;
 
-drop table if exists result;
+drop table if exists stats_by_genome;
+drop table if exists stats_by_variant;
 drop table if exists goal;
 drop table if exists pageview;
 drop table if exists genome_variant_link;
@@ -15,6 +16,7 @@ drop table if exists error;
 drop table if exists visitor;
 drop table if exists page;
 drop table if exists domain;
+
 --
 -- Table structure for table domain
 --
@@ -158,24 +160,6 @@ CREATE TABLE variant (
 
 
 --
--- Table structure for table result
---
-CREATE TABLE result (
-  variant_id int NOT NULL,
-  domain_name varchar(255) NOT NULL,
-  page_name varchar(255) NOT NULL,
-  gene_name varchar(255) NOT NULL,
-  variant_name varchar(255) NOT NULL,
-  variant_count bigint,
-  variant_sum double precision,
-  variant_avg double precision,
-  variant_stddev double precision,
-  variant_share double precision,
-  variant_weight double precision,
-  UNIQUE (variant_id)
-);
-
---
 -- Table structure for table stats_by_variant
 --
 CREATE TABLE stats_by_variant (
@@ -271,8 +255,6 @@ ALTER TABLE pageview ADD CONSTRAINT pageview_ibfk_3 FOREIGN KEY (page_id) REFERE
 ALTER TABLE pageview ADD CONSTRAINT pageview_ibfk_4 FOREIGN KEY (genome_id) REFERENCES genome (genome_id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE goal ADD CONSTRAINT goal_ibfk_1 FOREIGN KEY (pageview_xid) REFERENCES pageview (pageview_xid) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE result ADD CONSTRAINT result_ibfk_1 FOREIGN KEY (variant_id) REFERENCES variant (variant_id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE stats_by_variant ADD CONSTRAINT stats_by_variant_ibfk_1 FOREIGN KEY (variant_id) REFERENCES variant (variant_id) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE stats_by_genome ADD CONSTRAINT stats_by_genome_ibfk_1 FOREIGN KEY (genome_id) REFERENCES genome (genome_id) ON DELETE CASCADE ON UPDATE CASCADE;

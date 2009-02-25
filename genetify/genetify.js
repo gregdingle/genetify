@@ -91,7 +91,6 @@ var genetify = {
             }
 
             // TODO: make this optional as speed optimization
-            genetify._checkCSS(['.v', '.genetify_enabled', '.genetify_disabled']);
             genetify._addListener(window, 'onload', function(){
                 genetify._checkCSS(['.v', '.genetify_enabled', '.genetify_disabled']);
             });
