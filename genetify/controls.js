@@ -272,6 +272,7 @@ genetify.controls = {
 
                 }
                 else if (j === 0){
+                    //TODO: fix bug when click on name header... also, how to reset from fixed?
                     extra += ' onclick="location=\'#' + encodeURIComponent(geneName) + '=' + cols[j] + '\'; genetify.controls.reVary(\'all\')"';
                 }
                 else {

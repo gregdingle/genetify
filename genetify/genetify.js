@@ -1227,7 +1227,7 @@ genetify.weight = {
     variant: function(variant, sums){
         //TODO: config var
         // higher is slower
-        var floor = 100;
+        var floor = 10;
         variant['weight'] = (variant['sum'] + floor) / (sums['sum'] + floor * sums['distinct']);
         //TODO: return weight value?
         return variant;
@@ -1280,7 +1280,7 @@ genetify.weight = {
         df_within = sums['count'] - sums['distinct'];
         df_between = sums['distinct'] - 1;
 
-        if (df_between < 2 || df_within < 2){
+        if (df_between < 1 || df_within < 2){
             return 0;
         }
 
