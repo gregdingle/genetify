@@ -1026,7 +1026,8 @@ genetify.cookie = {
         var exp = new Date();
     	exp.setTime(exp.getTime() + (hoursToExpiry * 60 * 60 * 1000));
     	var domain = document.domain;
-        genetify.utils.assert(domain != 'localhost', 'Cookies don\'t work on localhost');
+    	//TODO:
+        // genetify.utils.assert(domain != 'localhost', 'Cookies don\'t work on localhost');
         var str = name + '=' + encodeURIComponent(value) + '; expires=' + exp.toGMTString() + '; domain=' + domain + '; path=/';
     	document.cookie = str;
     },
