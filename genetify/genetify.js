@@ -599,7 +599,7 @@ var genetify = {
             for (var p in currentObj){
                 //check for nested objects
                 //TODO: can functions have nested objects?
-                if (typeof(currentObj[p]) == 'object' && !genetify[p]){
+                if (typeof(currentObj[p]) == 'object' && !genetify[p] && currentObj[p] !== genetify.results){
 
                     // run away from weird false objects
                     //TODO: find less crude workaround
