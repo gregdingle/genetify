@@ -173,16 +173,12 @@
 		// console.log(genetify.cookie.read('genetify_genome_page'));
 		// console.log(genetify.cookie.read('genetify_genome'));
 
-        // setTimeout(function(){
-        //     test = genetify.test;
-        //     // test.variants('mygene', ['A', 'B', 'C']);
-        //     // test.variants('.mygene', ['A', 'B']);
-        //     // test.variants('.myothergene', ['A', 'B', 'C']);
-        //     // test.variants('main', ['AdditiveCSSRules', 'Elements']);
-        //
-        //     test.results('mygene', ['A', 'B', 'C']);
-        // }, 1000);
-        //
+        test = genetify.test;
+        test.results('mygene', ['A', 'B', 'C']);
+        // test.variants('mygene', ['A', 'B', 'C']);
+        // test.variants('.mygene', ['A', 'B']);
+        // test.variants('.myothergene', ['A', 'B', 'C']);
+        // test.variants('main', ['AdditiveCSSRules', 'Elements']);
 	</script>
 
     <!-- <a href="#" onclick="genetify.record.goal('adfs',-1); return false;">test error</a>

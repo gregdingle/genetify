@@ -4,8 +4,8 @@ require_once('init.php');
 // todo: change to POST only, check referrer
 function main()
 {       
-    if (empty($_REQUEST['domain']) || empty($_REQUEST['page'])) {
-        errback('Domain and page required.');
+    if (empty($_REQUEST['page'])) {
+        errback('Page required.');
     }
 
     if ($_REQUEST['delete'] == true) {

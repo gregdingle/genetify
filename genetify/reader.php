@@ -3,8 +3,8 @@ require_once('init.php');
 
 function main()
 {
-    if (empty($_REQUEST['domain']) || empty($_REQUEST['page'])) {
-        die('Domain and page required.');
+    if (empty($_REQUEST['page'])) {
+        die('Page required.');
     }
 
     //TODO: mysql-php field type mapping... keep ints as ints!
