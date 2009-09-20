@@ -7,9 +7,9 @@ var genetifyTime = {
 genetifyTime.begin.load = new Date().getTime();
 
 //TODO: is this too intrusive?
-if (!window.console || !(window.console.firebug || window.console.provider)){
+if (!window.console ){
 
-    console = {
+    window.console = {
         warn   : function(){},
         error  : function(){},
         info   : function(){},
@@ -121,7 +121,7 @@ var genetify = {
         genetify._addListener(window, 'onkeydown', function(e){
             if (e.ctrlKey){
                 filesLoad();
-                var key = e.charCode || e.keyCode;
+                var key = e.keyCode || e.charCode;
                 if (key == 71 ){ // g
                     genetify.controls._insertHTML('genetify_controls', genetify_controls_HTML);
                     genetify.controls.showResults();
@@ -155,8 +155,12 @@ var genetify = {
 
     _registerSystemObjects: function(){
         for (var p in window){
-            genetify._systemObjects.push(window[p]);
-            genetify._systemNames[p] = true;
+	    try {
+            	genetify._systemObjects.push(window[p]);
+            	genetify._systemNames[p] = true;
+	    } catch (e) {
+		//because sessionStorage throws error
+	    }
         }
         genetify._systemObjects['genetify'] = genetify;
         genetify._systemNames['genetify'] = true;
@@ -461,7 +465,11 @@ var genetify = {
             //TODO: optimizize
             for (var p in window){
                 if (!genetify._systemNames[p]){
-                    userDict[p] = window[p];
+                    try { 
+			userDict[p] = window[p];
+		    } catch (e) {
+			//because sessionStorage throws an error
+		    }
                 }
             }
             return userDict;
@@ -1084,11 +1092,8 @@ genetify.utils = {
 
     assert: function(test, message){
         if (!test){
-            //TODO: Firebug stack trace not working
-            // if (console.trace && window.location.href.indexOf('localhost') != -1){
-            //     console.trace();
-            // }
             throw('Genetify: ' + message);
+            console.trace();
         }
     },
 
@@ -1278,24 +1283,24 @@ genetify.weight = {
 
     //TODO: write test
     FTest: function(sums){
-        df_within = sums['count'] - sums['distinct'];
-        df_between = sums['distinct'] - 1;
+        var df_within = sums['count'] - sums['distinct'];
+        var df_between = sums['distinct'] - 1;
 
         if (df_between < 1 || df_within < 2){
             return 0;
         }
 
-        ms_within = sums['sumdev_within'] / df_within;
-        ms_between = sums['sumdev_between'] / df_between;
+        var ms_within = sums['sumdev_within'] / df_within;
+        var ms_between = sums['sumdev_between'] / df_between;
 
-        p = genetify.weight.Fspin(ms_between / ms_within, df_between, df_within);
+        var p = genetify.weight.Fspin(ms_between / ms_within, df_between, df_within);
         return 1 - p;
     },
 
     // adapted from http://faculty.vassar.edu/lowry/fcall.js
     Fspin: function(f, df1, df2) {
 
-        LJspin = function(q, i, j, b) {
+        var LJspin = function(q, i, j, b) {
             var zz = 1;
             var z = zz;
             var k = i;
@@ -1338,11 +1343,6 @@ genetify.weight = {
     }
 
 };
-
-
-//TODO: why is this needed?
-// firebug won't print later unless it is invoked here!
-console.log('Firebug', console.firebug || console.provider, 'is working');
 
 // to enable external configuration
 if (typeof(GENETIFY_CONFIG) != 'undefined'){
