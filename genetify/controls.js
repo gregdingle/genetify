@@ -216,7 +216,8 @@ genetify.controls = {
 
                 for (var variantName in gene){
                     var row = [variantName];
-                    for (var col in headers){
+                    for (var i=0; i < headers.length; i++){
+                        var col = headers[i];
                         var value = gene[variantName][headers[col]];
                         if (typeof(value) == 'number'){
                             value = genetify.utils.round(value);
