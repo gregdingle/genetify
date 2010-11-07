@@ -61,7 +61,7 @@ function main()
         die(test());
     }
 
-    if (@$_REQUEST['error']) {
+    if (@$_REQUEST['error'] && stristr($_REQUEST['error'], 'genetify')) {
         //TODO: is this any better than getting user agent server-side?
         die(record_error($_REQUEST['error'], $_REQUEST['line_number'], $_REQUEST['domain'], $_REQUEST['page']));
     }

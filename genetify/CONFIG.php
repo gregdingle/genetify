@@ -1,7 +1,7 @@
 <?php
 
 $DB['host'] = 'localhost';
-$DB['user'] = 'gregdingle';
+$DB['user'] = 'genetify_user';
 $DB['password'] = '';
 $DB['database'] = 'genetify';
 
