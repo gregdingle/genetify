@@ -465,7 +465,7 @@ var genetify = {
             //TODO: optimizize
             for (var p in window){
                 if (!genetify._systemNames[p]){
-                    try { 
+                    try {
 			userDict[p] = window[p];
 		    } catch (e) {
 			//because sessionStorage throws an error
@@ -966,7 +966,6 @@ genetify.record = {
     },
 
     error: function(message, url /*optional*/, lineNumber /*optional*/){
-
         if (message == 'Error loading script'){
             // because requests to non-existant cache files raise this error in Firefox
             return;
@@ -975,6 +974,11 @@ genetify.record = {
             'error': message,
             'line_number': lineNumber || 0
         };
+
+        // Don't bother sending other errors
+        if (message.toLowerCase().indexOf('genetify') == -1){
+          return '';
+        }
         genetify.utils.request(genetify.utils.buildURL('/recorder.php', queryDict));
     }
 
