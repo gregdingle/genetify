@@ -378,24 +378,26 @@ function insert_new_visitor($ip_address)
     global $mysqli;
 
     $visitor = array('ip_address' => $ip_address);
-
-    //TODO: make optional
-    require_once('Browscap/Browscap.php');
-    $bc = new Browscap('cache');
-    //TODO: make this configurable
-    $bc->doAutoUpdate = 0;
-    foreach ($bc->getBrowser() as $key => $value) {
-        //  filter out raw fields
-        if (!strstr($key, 'browser_name')) {
-            $visitor[$key] = $value;
-        }
-    }
-
-    //TODO: convert database column names
-    // $visitor = _camel_to_underscore($visitor);
-
     // TODO: best delimiter?
     $visitor['hash'] = md5(implode('', $visitor));
+
+   if (genetify.config.USE_BROWSCAP){
+
+        //TODO: make optional
+        require_once('Browscap/Browscap.php');
+        $bc = new Browscap('cache');
+        //TODO: make this configurable
+        $bc->doAutoUpdate = 0;
+        foreach ($bc->getBrowser() as $key => $value) {
+        //  filter out raw fields
+            if (!strstr($key, 'browser_name')) {
+                $visitor[$key] = $value;
+            }
+        }
+
+        //TODO: convert database column names
+        // $visitor = _camel_to_underscore($visitor);
+    }
 
     $sql = "SELECT * FROM visitor WHERE visitor.hash = '" . $visitor['hash'] . "'";
     $id = _get_unique_row_id('visitor', $sql);

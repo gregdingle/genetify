@@ -30,6 +30,7 @@ var genetify = {
         NO_VARYING: false,
         LOAD_CONTROLS: false,
         SHOW_RESULTS: false,
+        USE_BROWSECAP: false, // browscap is defunct, turn off by default if & until a replacement is installed
         NAMESPACE: window.location.pathname
         //TODO: NO_SCANNING
         //TODO: DEBUG
