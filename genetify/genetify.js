@@ -231,7 +231,7 @@ var genetify = {
         // so then you could create your compound rules
         // .myclass could modify the behavior of .myclass2.vA
 
-        var geneNamePattern = '(.*)';
+        var geneNamePattern = '([A-Z0-9_$][a-zA-Z0-9_$\-]*)';
         var markerPatternDict = {
             'additiveCSSRules': '[a-zA-Z0-9_$]?\\.v',
             'CSSRules': '_v',
