@@ -382,7 +382,7 @@ function insert_new_visitor($ip_address)
     // TODO: best delimiter?
     $visitor['hash'] = md5(implode('', $visitor));
 
-   if ($CONFIG['browscap']) {
+   if (isset($CONFIG['browscap']) && $CONFIG['browscap']) {
 
         //TODO: make optional
         require_once('Browscap/Browscap.php');
